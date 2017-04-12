@@ -1,0 +1,33 @@
+{
+  "name": "jails.packages",
+  "version": "1.0.0",
+  "description": "Index of all Jails official Packages",
+  "main": "rollup.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jails-org/Packages.git"
+  },
+  "keywords": [
+    "jails-js",
+    "library",
+    "javascript"
+  ],
+  "author": "Javiani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jails-org/Packages/issues"
+  },
+  "homepage": "https://github.com/jails-org/Packages#readme",
+  "dependencies": {
+	"babel-core": "^6.5.2",
+	"babel-loader": "^6.2.2",
+	"babel-preset-es2015": "^6.5.0",
+	"glob": "^7.0.0",
+	"webpack": "^1.12.13",
+	"jails-js":"git://github.com/jails-org/Jails.git#jails3"
+  }
+}
