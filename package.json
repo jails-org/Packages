@@ -22,12 +22,17 @@
     "url": "https://github.com/jails-org/Packages/issues"
   },
   "homepage": "https://github.com/jails-org/Packages#readme",
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "babel-preset-es2015": "^6.5.0",
+    "glob": "^7.0.0",
+    "webpack": "^1.12.13",
+    "jails-js": "git://github.com/jails-org/Jails.git#jails3"
+  },
   "dependencies": {
-	"babel-core": "^6.5.2",
-	"babel-loader": "^6.2.2",
-	"babel-preset-es2015": "^6.5.0",
-	"glob": "^7.0.0",
-	"webpack": "^1.12.13",
-	"jails-js":"git://github.com/jails-org/Jails.git#jails3"
+    "axios": "^0.16.1",
+    "morphdom": "^2.3.2",
+    "page": "^1.7.1"
   }
 }
