@@ -1,0 +1,14 @@
+{
+  "name": "jails.packages.json",
+  "version": "1.0.0",
+  "description": "JSON data structure model for Jails",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Javiani",
+  "license": "MIT",
+  "dependencies": {
+    "walker": "git://github.com/javiani/walker.git"
+  }
+}

@@ -33,6 +33,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "morphdom": "^2.3.2",
-    "page": "^1.7.1"
+    "page": "^1.7.1",
+	"walker": "git://github.com/javiani/walker.git"
   }
 }
