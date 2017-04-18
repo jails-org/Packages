@@ -43,8 +43,12 @@ const save = ( page )=>{
 
 const loadassets = ( page, config )=>{
 	return html =>{
-		head.appendChild(createElement('link', {rel:'stylesheet', href: config.css}))
-		getScript(config.js, onscriptloaded(page, config))
+		if( config.css )
+			head.appendChild(createElement('link', {rel:'stylesheet', href: config.css}))
+		if( config.js )
+			getScript(config.js, onscriptloaded(page, config))
+		else
+			onscriptloaded(page, config).call()
 	}
 }
 
