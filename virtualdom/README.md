@@ -22,13 +22,13 @@ render([{value:1}, {value:2}, {value:3}])
 
 ### Result
 ```html
-	<div id="target">
-		<ul>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-		<ul>
-	</div>
+<div id="target">
+	<ul>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+	<ul>
+</div>
 ```
 
 `virtualdom` takes a HtmlElement and an function that can return either html string or domNodes, and returns a `render` function that expects a model ( Object literal).
