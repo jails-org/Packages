@@ -1,6 +1,5 @@
 # Packages
 
-## Summary
 
 [Ajax](#ajax) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom)
 
