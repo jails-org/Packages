@@ -5,19 +5,20 @@
 [Ajax](#ajax) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom)
 
 ### Ajax
-- [http](http)
+- [axios](https://github.com/mzabriskie/axios)
 
 ### Adapters
 - [jQuery.adapter](jquery.adapter)
 
 ### JSON Data Manipulation
-- [json](json)
+- [walker](https://github.com/Javiani/Walker)
 
 ### Loggers
 - [logger](logger)
 
 ### Router
-- [router](router)
+- [grapnel](https://github.com/baseprime/grapnel)
+- [page.js](https://github.com/visionmedia/page.js)
 
 ### Persistency
 - [store](store)

@@ -31,9 +31,6 @@
     "jails-js": "git://github.com/jails-org/Jails.git#jails3"
   },
   "dependencies": {
-    "axios": "^0.16.1",
-    "morphdom": "^2.3.2",
-    "page": "^1.7.1",
-	"walker": "git://github.com/javiani/walker.git"
+    "morphdom": "^2.3.2"
   }
 }
