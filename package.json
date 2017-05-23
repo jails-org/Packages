@@ -28,7 +28,7 @@
     "babel-preset-es2015": "^6.5.0",
     "glob": "^7.0.0",
     "webpack": "^1.12.13",
-    "jails-js": "git://github.com/jails-org/Jails.git#jails3"
+    "jails-js": "jails-org/jails"
   },
   "dependencies": {
     "morphdom": "^2.3.2"
