@@ -1,7 +1,6 @@
 # Packages
 
-
-[Ajax](#ajax) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom) | [Templating](#templating) | [SPA](#spa)
+[Ajax](#ajax) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loaders](#loaders) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom) | [Templating](#templating) | [SPA](#spa)
 
 ### Ajax
 - [axios](https://github.com/mzabriskie/axios)
@@ -11,6 +10,10 @@
 
 ### JSON Data Manipulation
 - [walker](https://github.com/Javiani/Walker)
+
+### Loaders
+- [html-loader](https://github.com/Javiani/html-loader)
+- [scriptjs](https://github.com/ded/script.js)
 
 ### Loggers
 - [logger](logger)
@@ -32,4 +35,4 @@
 - [tangular](https://github.com/totaljs/Tangular)
 
 ### SPA
-- [html-loader](https://github.com/Javiani/html-loader)
+- [MVC](mvc)
