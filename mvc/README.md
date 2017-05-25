@@ -43,10 +43,22 @@ MVC({
 })
 ```
 
-#### `state`
+#### load( page )
+Gets the `/:page/` from url and expect an object returning `templateUrl` for `.html` files (required) and `js`, `css` files which are optional.
+
+#### callback( { page, state, outlet })
+It's called after outlet is rendered with the new content.
+
+##### `page`
+The visited page
+
+##### `state`
 Possible states : loaded | changed
 - Loaded for the very first time
 - Changed for visiting the same page already cached.
 
-#### `outlet`
+##### `outlet`
 Should be a `htmlElement` with `[data-outlet]` on it.
+
+#### update( response )
+Overrides the outlet appendChild default behavior. You have to get the outlet and append data for your own.
