@@ -3,7 +3,7 @@
 [Ajax](#ajax) | [Async](#async) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loaders](#loaders) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom) | [Templating](#templating) | [SPA](#spa)
 
 ### Async
-- [async](https://github.com/getify/asynquence)
+- [asynquence](https://github.com/getify/asynquence)
 
 ### Ajax
 - [axios](https://github.com/mzabriskie/axios)
