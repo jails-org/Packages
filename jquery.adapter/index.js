@@ -9,6 +9,9 @@ export default ( $ ) =>{
 
 			on :function(el, ev, callback){
 
+				el.__events = el.__events || {}
+				el.__events[ev] = true
+
 				if( callback.call ){
 					let cb = handler(callback)
 					callback.$handler = cb
@@ -31,7 +34,7 @@ export default ( $ ) =>{
 			},
 
 			off:function(el, ev, callback){
-				$(el).off(ev, callback.$handler)
+				$(el).off(ev, callback? callback.$handler :null)
 			},
 
 			trigger :function(el, ev, args){
