@@ -17,7 +17,7 @@ const loaders = [{
 const library = (name)=>({
 	plugins,
 	entry 	:`./${name}/index.js`,
-	externals :{ 'jails-js' :'jails', 'morphdom' :'morphdom', 'page' :'page', 'axios' :'axios', 'walker' :'walker' },
+	externals :{ 'jails-js' :'jails-js', 'morphdom' :'morphdom' },
 	module	:{ loaders },
 	output  :{
 		filename :`${name}/dist/index.js`,
