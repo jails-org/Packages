@@ -12,11 +12,11 @@ import vdom from 'jails.packages/virtualdom'
 
 const target = document.getElementById('target')
 
-const render = vdom( target, items =>
+const render = vdom( target, items =>{
     return `<ul>
     	${items.map(item => `<li>${item}</li>`)}
     </ul>`
-)
+})
 
 render([1, 2, 3])
 ```
