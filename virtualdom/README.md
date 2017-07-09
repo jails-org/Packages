@@ -5,19 +5,20 @@ This module uses the fantastic [morphdom](https://github.com/patrick-steele-idem
 ---
 
 Morphdom is template system agnostic, it can be used with dom elements or string of dom elements.
-You can use `mustache` with dom diffing for example:
+You can use any template string systems and use dom diffing, for example:
 
 ```js
 import vdom from 'jails.packages/virtualdom'
-import mustache from 'mustache'
 
-const template = mustache.parse('<ul>{{#items}}<li>{{value}}</li>{{/items}}</ul>')
-const targetElement = document.getElementById('target')
-const engine = ( model )=> mustache.render(template, model)
+const target = document.getElementById('target')
 
-const render = vdom( targetElement, engine )
+const render = vdom( target, items =>
+    return `<ul>
+    	${items.map(item => `<li>${item}</li>`)}
+    </ul>`
+)
 
-render([{value:1}, {value:2}, {value:3}])
+render([1, 2, 3])
 ```
 
 ### Result
