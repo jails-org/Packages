@@ -15,7 +15,7 @@ const template = mustache.parse('<ul>{{#items}}<li>{{value}}</li>{{/items}}</ul>
 const targetElement = document.getElementById('target')
 const engine = ( model )=> mustache.render(template, model)
 
-const render = vdom( domElement, engine )
+const render = vdom( targetElement, engine )
 
 render([{value:1}, {value:2}, {value:3}])
 ```
