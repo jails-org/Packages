@@ -15,20 +15,20 @@ Returns a render function which will compile a `template` tag content using [raz
 
 ```html
 <div id="target">
-	<template>
-		<ul>
-			@each( item in items ){
-				<li>@item</li>
-			}
-		</ul>
-	</template>
+    <template>
+        <ul>
+            @each( item in items ){
+            <li>@item</li>
+            }
+        </ul>
+    </template>
 </div>
 ```
 
 ```js
 import Html from 'jails.packages/html'
 
-const tpl = document.getElementById('tpl-user')
+const tpl = document.getElementById('target')
 const render = Html.template( tpl )
 
 render([{value:1}, {value:2}, {value:3}])
@@ -37,10 +37,10 @@ render([{value:1}, {value:2}, {value:3}])
 ### Result
 ```html
 <div id="target">
-	<ul>
-		<li>1</li>
-		<li>2</li>
-		<li>3</li>
-	<ul>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    <ul>
 </div>
 ```
