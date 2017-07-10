@@ -31,6 +31,7 @@
 
 ### DOM
 - [virtualdom](virtualdom)
+- [html](html)
 
 ### Templating
 - [mustache](https://github.com/janl/mustache.js/)
