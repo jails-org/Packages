@@ -1,0 +1,19 @@
+{
+  "name": "jails.packages.html",
+  "version": "1.0.0",
+  "description": "Jails Html Engine",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "html",
+    "jails"
+  ],
+  "author": "Javiani",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "razor-tmpl": "^1.3.1"
+  }
+}
