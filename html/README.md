@@ -7,9 +7,9 @@ Jails Html system designed to work with DOM, template systems and DOM diffing.
 ---
 
 ## .template( HTMLElement, [cssSelector = 'template'])
-Returns a render function which will compile a `template` tag content using `ejs` syntax generating html output.
+Returns a render function which will compile a `template` tag content using [razor](https://github.com/magicdawn/razor-tmpl) syntax generating html output.
 
-** IMPORTANT ** : Template must have only 1 root node, just like JSX.
+**IMPORTANT** : Template must have only 1 root node, just like JSX.
 
 ### Usage
 
@@ -17,9 +17,9 @@ Returns a render function which will compile a `template` tag content using `ejs
 <div id="target">
 	<template>
 		<ul>
-			<% items.map(function( item ){ %>
-				<%= item %>
-			<% }) %>
+			@each( item in items ){
+				<li>@item</li>
+			}
 		</ul>
 	</template>
 </div>
