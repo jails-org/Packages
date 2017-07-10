@@ -18,7 +18,7 @@ Returns a render function which will compile a `template` tag content using [raz
     <template>
         <ul>
             @each( item in items ){
-            <li>@item</li>
+                <li>@item</li>
             }
         </ul>
     </template>
@@ -28,8 +28,8 @@ Returns a render function which will compile a `template` tag content using [raz
 ```js
 import Html from 'jails.packages/html'
 
-const tpl = document.getElementById('target')
-const render = Html.template( tpl )
+const target = document.getElementById('target')
+const render = Html.template( target )
 
 render([{value:1}, {value:2}, {value:3}])
 ```
