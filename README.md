@@ -31,7 +31,7 @@
 
 ### DOM
 - [virtualdom](virtualdom)
-- [html](html)
+- [template](template)
 
 ### Templating
 - [mustache](https://github.com/janl/mustache.js/)
@@ -39,4 +39,4 @@
 - [tangular](https://github.com/totaljs/Tangular)
 
 ### SPA
-- [MVC](mvc)
+- [SPA](spa)

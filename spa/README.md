@@ -1,6 +1,6 @@
-# mvc
+# spa
 
-A MVC module for building SPA applications using `Jails` in MVC pattern.
+A module for building SPA applications using `Jails`.
 
 `Dependencies` : [htmlLoader](https://github.com/Javiani/html-loader), [Grapnel](https://github.com/baseprime/grapnel)
 
@@ -14,12 +14,12 @@ A MVC module for building SPA applications using `Jails` in MVC pattern.
 
 ```js
 import jails from 'jails-js'
-import MVC   from 'jails.packages/mvc'
+import SPA   from 'jails.packages/spa'
 
-MVC({
+SPA({
 
     routes( router ){
-        // Optinal routes definition.
+        // Optional routes definition.
         // Redirecting to a default route
         router.get('', ()=>router.navigate('/home') )
     },

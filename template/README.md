@@ -1,12 +1,12 @@
-# html
+# template
 
 Jails Html system designed to work with DOM, template systems and DOM diffing.
 
-> Dependencies : `jails.packages.virtualdom`
+> Dependencies : `jails.packages.virtualdom`, `razor-tmpl`
 
 ---
 
-## .template( HTMLElement, [cssSelector = 'template'])
+## template( HTMLElement, [cssSelector = 'template'])
 Returns a render function which will compile a `template` tag content using [razor](https://github.com/magicdawn/razor-tmpl) syntax generating html output.
 
 **IMPORTANT** : Template must have only 1 root node, just like JSX.
@@ -26,10 +26,10 @@ Returns a render function which will compile a `template` tag content using [raz
 ```
 
 ```js
-import Html from 'jails.packages/html'
+import template from 'jails.packages/template'
 
 const target = document.getElementById('target')
-const render = Html.template( target )
+const render = template( target )
 
 render([{value:1}, {value:2}, {value:3}])
 ```
