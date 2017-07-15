@@ -8,11 +8,14 @@ export default ( node, render )=>{
 	return ( state )=>{
 
 		let hascomponent = false
+		let result
 
 		if(!oldnode)
 			oldnode = node.appendChild(document.createElement('div'))
 
-		oldnode = morphdom( oldnode, render( state ), {
+		result = render( state )
+
+		oldnode = morphdom( oldnode, result.trim? result.trim() :result, {
 			onBeforeNodeAdded( newnode ){
 				if( newnode.getAttribute && newnode.getAttribute('data-component') ){
 					hascomponent = true
