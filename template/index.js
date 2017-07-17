@@ -1,5 +1,5 @@
 import vdom  from 'jails.packages/virtualdom'
-import razor from 'razor-tmpl/browser/razor-tmpl'
+import T from 'tangular'
 
 export default ( elm, selector = 'template' )=>{
 
@@ -7,9 +7,7 @@ export default ( elm, selector = 'template' )=>{
 	const template = elm.querySelector( selector )
 
 	textarea.innerHTML = template.innerHTML.trim()
-
-	const tplstring = textarea.value
-	const engine = model => razor.render( tplstring, model )
+	const engine = T.compile( textarea.value )
 
 	textarea = null
 	return vdom( elm, engine )
