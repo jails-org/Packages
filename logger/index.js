@@ -36,12 +36,12 @@ const markup = ( components )=>{
 const modules = ( components )=>{
 
 	each(document.querySelectorAll('[data-component]'), ( node, index) =>{
-			each(node.getAttribute('data-component').split(/\s/), name =>{
+		each(node.getAttribute('data-component').split(/\s/), name =>{
 			if(!(name in components)){
 				console.info('[ Logger ]', name, 'was not loaded on jails.start()')
 			}
 		})
-	});
+	})
 }
 
 const checkorder = (jails) =>{
@@ -62,7 +62,7 @@ const checkorder = (jails) =>{
 			}
 
 		object.on = function(ev, callback){
-			if(ev.match(/\:/))
+			if(!(('on'+ev) in document))
 				fromto[ev] = node
 			on.apply(object, arguments)
 		}

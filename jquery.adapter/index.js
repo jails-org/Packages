@@ -28,7 +28,7 @@ export default ( $ ) =>{
 					return function(e, data){
 						e.detail = data? data.detail :e.detail
 						e.detail = e.detail || {}
-						return cb.apply(this, [e].concat(e.detail.args))
+						return cb.apply(this, [e].concat(e.detail.args || data))
 					}
 				}
 			},
