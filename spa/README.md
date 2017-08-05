@@ -43,6 +43,16 @@ SPA({
 })
 ```
 
+You can also pull Router and HtmlLoader from this package doing this:
+
+```js
+import jails from 'jails-js'
+import {Router, htmlLoader} from 'jails.packages/spa'
+
+console.log( Router, htmlLoader )
+```
+
+
 #### load( page )
 Gets the `/:page/` from url and expect an object returning `templateUrl` for `.html` files (required) and `js`, `css` files which are optional.
 

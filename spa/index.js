@@ -1,4 +1,4 @@
-import htmlLoader from 'html-loader'
+import loader from 'html-loader'
 import Grapnel 	  from 'grapnel'
 
 export default ({
@@ -18,7 +18,7 @@ export default ({
 	/* @Functions */
 	function get( req, res, next ){
 		const {page} = req.params
-		htmlLoader( load(page) )
+		loader( load(page) )
 			.then( response =>{
 				response.page = page
 				response.outlet = outlet
@@ -33,3 +33,7 @@ export default ({
 		if( callback ) callback( response )
 	}
 }
+
+export const Router = Grapnel
+
+export const htmlLoader = loader
