@@ -1,5 +1,5 @@
 import vdom  from 'jails.packages/virtualdom'
-import T from 'tangular'
+import Tangular from 'tangular'
 
 export default ( elm, selector = 'template' )=>{
 
@@ -7,8 +7,11 @@ export default ( elm, selector = 'template' )=>{
 	const template = elm.querySelector( selector )
 
 	textarea.innerHTML = template.innerHTML.trim()
-	const engine = T.compile( textarea.value )
+	const engine = Tangular.compile( textarea.value )
 
 	textarea = null
 	return vdom( elm, engine )
 }
+
+export const T = Tangular
+export const virtualdom = vdom
