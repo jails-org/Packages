@@ -1,6 +1,6 @@
 # Packages
 
-[Ajax](#ajax) | [Async](#async) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loaders](#loaders) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom) | [Templating](#templating) | [SPA](#spa)
+[Ajax](#ajax) | [Async](#async) | [Adapters](#adapters) | [JSON Data Manipulation](#json) | [Loaders](#loaders) | [Loggers](#loggers) | [Router](#routers) | [Persistency](#persistency) | [DOM](#dom) | [Templating](#templating) | [SPA](#spa) | [Date](#date)
 
 ### Async
 - [asynquence](https://github.com/getify/asynquence)
@@ -40,3 +40,6 @@
 
 ### SPA
 - [SPA](spa)
+
+### Date
+- [moment.js](https://github.com/moment/moment)
