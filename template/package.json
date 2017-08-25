@@ -1,5 +1,5 @@
 {
-  "name": "jails.packages.html",
+  "name": "jails.packages.template",
   "version": "1.0.0",
   "description": "Jails Html Engine",
   "main": "dist/index.js",
@@ -11,8 +11,5 @@
     "jails"
   ],
   "author": "Javiani",
-  "license": "MIT",
-  "dependencies": {
-    "tangular": "^1.7.1"
-  }
+  "license": "MIT"
 }

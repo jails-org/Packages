@@ -18,9 +18,7 @@ const library = (name)=>({
 	plugins,
 	entry 	:`./${name}/index.js`,
 	externals :{
-		'jails-js' :'jails-js',
-		'morphdom' :'morphdom',
-		'jails.packages/virtualdom' :'jails.packages/virtualdom'
+		'jails-js':'jails-js'
 	},
 	module	:{ loaders },
 	output  :{

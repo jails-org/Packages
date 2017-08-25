@@ -1,17 +1,57 @@
-import vdom  from 'jails.packages/virtualdom'
-import Tangular from 'tangular'
+import {virtualdom} from '../virtualdom'
+import jails from 'jails-js'
 
-export default ( elm, selector = 'template' )=>{
+export default engine => (elm, options = {}) => {
 
-	let textarea = document.createElement('textarea')
-	const template = elm.querySelector( selector )
+	let hascomponents = false
 
-	textarea.innerHTML = template.innerHTML.trim()
-	const engine = Tangular.compile( textarea.value )
+	const selector 	= options.selector || 'template'
+	const target    = elm.querySelectorAll( selector )
+	const templates = Array.prototype.slice.call( target )
+	const root 		= document.createElement('div')
 
-	textarea = null
-	return vdom( elm, engine )
+	root.setAttribute('data-root-template', true)
+
+	const callback = {
+
+		onBeforeElChildrenUpdated( fromel, toel ){
+
+			const attributes = fromel.attributes
+			const iscomponent = attributes.getNamedItem('data-component')
+			const shouldnotupdate = attributes.getNamedItem('shouldnotupdate')
+
+			if( iscomponent ){
+				if( !fromel.j ) hascomponents = true
+				if( shouldnotupdate ) return false
+			}
+		}
+	}
+
+	const Ts = templates.map( template => {
+
+		const tpl = engine(`<div data-root-template="true">${template.innerHTML.trim()}</div>`)
+
+		const render = (state = {}) => {
+
+			virtualdom( root, tpl( state ), callback )
+
+			if( hascomponents ){
+				jails.start( root )
+				hascomponents = false
+			}
+		}
+
+		template.parentNode.insertBefore( root, template )
+		render( options.initialState )
+		jails.start( root )
+
+		return { render, template }
+	})
+
+	return {
+		render( state ){
+			Ts.map( item => item.render(state) )
+		}
+	}
+
 }
-
-export const T = Tangular
-export const virtualdom = vdom

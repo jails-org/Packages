@@ -1,6 +1,8 @@
 import morphdom from 'morphdom'
 import jails    from 'jails-js'
 
+export const virtualdom = morphdom
+
 export default ( node, render )=>{
 
 	let oldnode
