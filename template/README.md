@@ -17,6 +17,10 @@ Returns a object with `.render( state )` method used to update the view.
 		{{#items}}
 			<li>{{.}}</li>
 		{{/items}}
+
+		<div data-component="my-component" shouldnotupdate>
+			<p>This component will not be updated, only mounted</p>
+		</div>
     </template>
 </ul>
 ```
