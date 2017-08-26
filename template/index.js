@@ -8,9 +8,6 @@ export default engine => (elm, options = {}) => {
 	const selector 	= options.selector || 'template'
 	const target    = elm.querySelectorAll( selector )
 	const templates = Array.prototype.slice.call( target )
-	const root 		= document.createElement('div')
-
-	root.setAttribute('data-root-template', true)
 
 	const callback = {
 
@@ -29,7 +26,13 @@ export default engine => (elm, options = {}) => {
 
 	const Ts = templates.map( template => {
 
-		const tpl = engine(`<div data-root-template="true">${template.innerHTML.trim()}</div>`)
+		const root = document.createElement('div')
+		root.setAttribute('data-root-template', true)
+
+		const textarea = document.createElement('textarea')
+		textarea.innerHTML = `<div data-root-template="true">${template.innerHTML.trim()}</div>`
+
+		const tpl = engine( textarea.value )
 
 		const render = (state = {}) => {
 
@@ -53,5 +56,4 @@ export default engine => (elm, options = {}) => {
 			Ts.map( item => item.render(state) )
 		}
 	}
-
 }
