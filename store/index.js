@@ -28,7 +28,7 @@ export default ( state )=>{
 
 		dispatch( action, payload ){
 			if( action in actions ){
-				let newstate = Object.assign({}, actions[ action ].call( null, state, payload ))
+				let newstate = Object.assign(state, actions[ action ].call( null, state, payload ))
 				update( newstate || state, action )
 			}
 		},
