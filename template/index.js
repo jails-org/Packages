@@ -3,8 +3,6 @@ import jails from 'jails-js'
 
 export default engine => (elm, options = {}) => {
 
-	let hascomponents = false
-
 	const selector 	= options.selector || 'template'
 	const target    = elm.querySelectorAll( selector )
 	const templates = Array.prototype.slice.call( target )
@@ -12,15 +10,10 @@ export default engine => (elm, options = {}) => {
 	const callback = {
 
 		onBeforeElChildrenUpdated( fromel, toel ){
-
 			const attributes = fromel.attributes
 			const iscomponent = attributes.getNamedItem('data-component')
 			const shouldnotupdate = attributes.getNamedItem('shouldnotupdate')
-
-			if( iscomponent ){
-				if( !fromel.j ) hascomponents = true
-				if( shouldnotupdate ) return false
-			}
+			return !( iscomponent && shouldnotupdate )
 		}
 	}
 
@@ -35,18 +28,12 @@ export default engine => (elm, options = {}) => {
 		const tpl = engine( textarea.value )
 
 		const render = (state = {}) => {
-
 			virtualdom( root, tpl( state ), callback )
-
-			if( hascomponents ){
-				jails.start( root )
-				hascomponents = false
-			}
+			jails.start( root )
 		}
 
 		template.parentNode.insertBefore( root, template )
 		render( options.initialState )
-		jails.start( root )
 
 		return { render, template }
 	})
