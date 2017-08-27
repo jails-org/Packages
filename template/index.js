@@ -14,7 +14,7 @@ export default engine => (elm, options = {}) => {
 		if( fromel.attributes ){
 
 			const attributes = fromel.attributes
-			const iscomponent = attributes.getNamedItem('data-component')
+			const iscomponent = attributes.getNamedItem('data-component') || fromel.querySelector('[data-component]')
 			const shouldnotupdate = attributes.getNamedItem('shouldnotupdate')
 
 			if( iscomponent ){
