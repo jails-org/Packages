@@ -17,11 +17,11 @@ export default engine => (elm, options = {}) => {
 			const iscomponent = attributes.getNamedItem('data-component') || fromel.querySelector('[data-component]')
 			const shouldnotupdate = attributes.getNamedItem('shouldnotupdate')
 
-			if( iscomponent ){
+			if( iscomponent )
 				hascomponent = true
-				if( shouldnotupdate )
-					return false
-			}
+
+			if( shouldnotupdate )
+				return false
 		}
 	}
 
