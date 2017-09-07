@@ -34,9 +34,11 @@
 - [template](template)
 
 ### Templating
+- [sodajs](https://github.com/AlloyTeam/sodajs)
 - [mustache](https://github.com/janl/mustache.js/)
 - [razor](https://github.com/magicdawn/razor-tmpl)
 - [tangular](https://github.com/totaljs/Tangular)
+- [art-template](https://github.com/aui/art-template)
 
 ### SPA
 - [SPA](spa)
