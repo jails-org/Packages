@@ -9,6 +9,7 @@ const plugins 	  = [uglify]
 const loaders = [{
 	loader: 'babel',
 	test: /\.js$/,
+	exclude :/node_modules/,
 	query:{
 		presets:['es2015']
 	}
