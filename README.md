@@ -30,6 +30,7 @@
 - [store](store)
 
 ### DOM
+- [reactor](reactor)
 - [virtualdom](virtualdom)
 - [template](template)
 
