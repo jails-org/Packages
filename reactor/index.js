@@ -30,14 +30,19 @@ export default option => jails =>{
 		return base
 	}
 
-	const lifecycle = (root, status) => ({
+	const lifecycle = ( root, status ) => ({
 
-		onNodeAdded: function(node) {
+		onBeforeElChildrenUpdated( node ){
+			if( node.getAttribute && node.getAttribute('data-static') )
+				return false
+		},
+
+		onNodeAdded( node ) {
 			if( node.getAttribute && node.getAttribute('data-component') )
 				status.hascomponent = true
 		},
 
-		onBeforeNodeDiscarded: function(node) {
+		onBeforeNodeDiscarded( node ){
 			if( node.getAttribute ){
 				let name = node.getAttribute('data-component')
 				if( name )
