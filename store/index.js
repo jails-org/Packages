@@ -1,40 +1,55 @@
-export default ( state )=>{
+export default ( state = {} ) => {
 
-	let topics = [], actions = []
-
-	const update = ( newstate, action )=>{
-		topics.forEach( method =>
-			method( newstate, { action, newstate, oldstate :state })
-		)
-		state = newstate
-	}
+	const publisher = pubsub()
+	const UPDATE = '__update__'
 
 	return {
-
-		set( fn ){
-			let newstate = Object.assign({}, state)
-			fn( newstate )
-			update( newstate, '' )
-		},
 
 		get(){
 			return state
 		},
 
-		subscribe( fn ){
-			topics.push( fn )
-			return ()=> topics = topics.filter( item =>item != fn )
+		set( fn ){
+			publisher.publish( UPDATE, { state :fn( state ) } )
+		},
+
+		actions( actions ){
+			for( let action in actions )
+				publisher.subscribe( action, payload =>{
+					state = Object.assign(state, actions[ action ]( state, payload ))
+				})
 		},
 
 		dispatch( action, payload ){
-			if( action in actions ){
-				let newstate = Object.assign(state, actions[ action ].call( null, state, payload ))
-				update( newstate || state, action )
-			}
+			publisher.publish( action, payload )
+			publisher.publish( UPDATE, { state, action } )
 		},
 
-		actions( newactions ){
-			actions = Object.assign( actions, newactions )
+		subscribe( update ){
+			return publisher.subscribe(UPDATE, ({state, action}) => update( state, {action} ))
+		}
+	}
+}
+
+const pubsub = () => {
+
+	let topics = {}
+
+	return {
+
+		publish( name, params ){
+			if( name in topics )
+				topics[name].map( topic => topic( params ) )
+		},
+
+		subscribe( name, method ){
+
+			topics[name] = topics[name] || []
+			topics[name].push( method )
+
+			return ()=>{
+				topics[name] = topics[name].filter( topic => topic == method )
+			}
 		}
 	}
 }
