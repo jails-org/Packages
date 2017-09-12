@@ -1,6 +1,11 @@
 import morphdom from 'morphdom'
 import soda from 'sodajs'
 
+export {
+	morphdom,
+	soda
+}
+
 export default option => jails =>{
 
 	const component = jails.component
