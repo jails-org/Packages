@@ -22,11 +22,11 @@ export default ( state = {} ) => {
 
 		dispatch( action, payload ){
 			publisher.publish( action, payload )
-			publisher.publish( UPDATE, { state, action } )
+			publisher.publish( UPDATE, { state, action, payload } )
 		},
 
 		subscribe( update ){
-			return publisher.subscribe(UPDATE, ({state, action}) => update( state, {action} ))
+			return publisher.subscribe(UPDATE, ({state, action, payload}) => update( state, {action, payload} ))
 		}
 	}
 }
