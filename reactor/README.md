@@ -1,6 +1,6 @@
 # reactor
 
-Reactor extends all jails components into reactive components.
+Reactor transform all jails components into reactive components.
 
 > Version : `1.0.0`
 
