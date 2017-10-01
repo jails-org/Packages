@@ -1,6 +1,6 @@
 # reactor
 
-Reactor extends all jails components into reactive components.
+Diff Dom and template system for Jails.
 
 > Version : `1.0.0`
 
