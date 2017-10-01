@@ -1,14 +1,13 @@
 {
-  "name": "jails.packages.mvc",
+  "name": "jails.packages.spa",
   "version": "1.0.0",
-  "description": "SPA MVC Architecture",
+  "description": "SPA Architecture",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "SPA",
-    "mvc",
     "jails"
   ],
   "author": "Javiani",
