@@ -31,6 +31,7 @@
 
 ### DOM
 - [reactor](reactor)
+- [morphdom](https://github.com/patrick-steele-idem/morphdom)
 
 ### Templating
 - [sodajs](https://github.com/AlloyTeam/sodajs)
