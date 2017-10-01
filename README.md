@@ -31,8 +31,6 @@
 
 ### DOM
 - [reactor](reactor)
-- [virtualdom](virtualdom)
-- [template](template)
 
 ### Templating
 - [sodajs](https://github.com/AlloyTeam/sodajs)
