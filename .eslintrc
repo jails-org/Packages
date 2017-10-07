@@ -2,7 +2,6 @@
     "rules": {
         "indent": [2,"tab", {"SwitchCase":1}],
         "quotes": [2,"single"],
-        "linebreak-style": [2,"unix"],
         "semi": [2,"never"],
         "no-unused-vars": ["warn", { "vars": "all", "args": "none" }],
         "no-console": 0

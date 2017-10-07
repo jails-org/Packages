@@ -16,7 +16,7 @@ Diff Dom and template system for Jails.
 import reactor from 'jails.packages/reactor'
 
 jails
-	.use( reactor() )
+	.extends( reactor() )
 	.start()
 ```
 

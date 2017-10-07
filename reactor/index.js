@@ -6,33 +6,24 @@ export {
 	soda
 }
 
-export default option => jails =>{
+export default option => Base =>{
 
-	const component = jails.component
+	if( Base.elm == document.body ){
+		Base.reactor = state => { console.warn('Reactor can`t be used on document.body') }
+	}
+	else{
+		let template = Base.elm.querySelector('template')
+		let html = Base.elm.outerHTML
 
-	jails.component = (name, node, options) =>{
+		if( template )
+			html = html.replace(/<template*.>/g, '').replace(/<\/template>/g, '')
 
-		let base = component( name, node, options )
-
-		if( node == document.body ){
-			base.reactor = state => { console.warn('Reactor can`t be used on document.body') }
+		Base.reactor = state => {
+			let status = {}
+			morphdom( Base.elm, soda(html, state), lifecycle( Base.elm, status ) )
+			if( status.hascomponent )
+				Base.jails.start( Base.elm )
 		}
-		else{
-			let template = node.querySelector('template')
-			let html = node.outerHTML
-
-			if( template )
-				html = html.replace(/\<template*.\>/g, '').replace(/\<\/template\>/g, '')
-
-			base.reactor = state => {
-				let status = {}
-				morphdom( node, soda(html, state), lifecycle(node, status) )
-				if( status.hascomponent )
-					jails.start( node )
-			}
-		}
-
-		return base
 	}
 
 	const lifecycle = ( root, status ) => ({
@@ -51,8 +42,10 @@ export default option => jails =>{
 			if( node.getAttribute ){
 				let name = node.getAttribute('data-component')
 				if( name )
-					jails.destroy( root, `[data-component*=${name}]`)
+					Base.jails.destroy( root, `[data-component*=${name}]`)
 			}
 		}
 	})
+
+	return Base
 }
