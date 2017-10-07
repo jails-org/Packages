@@ -10,7 +10,8 @@ export default ( state = {} ) => {
 		},
 
 		set( fn ){
-			publisher.publish( UPDATE, { state :fn( state ) } )
+			fn( state )
+			publisher.publish( UPDATE, { state } )
 		},
 
 		actions( actions ){
