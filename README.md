@@ -18,6 +18,7 @@
 
 ### Ajax
 - [axios](https://github.com/mzabriskie/axios)
+- [cross-fetch](https://github.com/lquixada/cross-fetch)
 
 ### Adapters
 - [jQuery.adapter](jquery.adapter)
