@@ -18,7 +18,7 @@ A uni-directional architecture inspired in Elm & Redux. It integrates `store` an
 ### Js Component
 ```js
 import jails from 'jails'
-import logger from 'jails.packages/arch'
+import arch from 'jails.packages/arch'
 
 jails('my-component', ( {init, arch} ) => {
 

@@ -3,6 +3,7 @@
 - [Ajax](#ajax) 
 - [Async](#async)
 - [Adapters](#adapters)
+- [Architecture](#architecture)
 - [JSON Data Manipulation](#json)
 - [Loaders](#loaders)
 - [Loggers](#loggers)
@@ -13,14 +14,19 @@
 - [SPA](#spa)
 - [Date](#date)
 
+
 ### Async
 - [asynquence](https://github.com/getify/asynquence)
 
 ### Ajax
 - [axios](https://github.com/mzabriskie/axios)
+- [cross-fetch](https://github.com/lquixada/cross-fetch)
 
 ### Adapters
 - [jQuery.adapter](jquery.adapter)
+
+### Architecture
+- [arch](arch)
 
 ### JSON Data Manipulation
 - [walker](https://github.com/Javiani/Walker)
