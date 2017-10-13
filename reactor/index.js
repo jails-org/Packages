@@ -42,7 +42,7 @@ export default option => Base =>{
 			if( node.getAttribute ){
 				let name = node.getAttribute('data-component')
 				if( name )
-					Base.jails.destroy( root, `[data-component*=${name}]`)
+					Base.jails.destroy( node )
 			}
 		}
 	})
