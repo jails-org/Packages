@@ -16,6 +16,7 @@ export default option => Base =>{
 	if( Base.elm == document.body ){
 		Base.reactor = state => { console.warn('Reactor can`t be used on document.body') }
 	}else{
+
 		let template = Base.elm.querySelector('template')
 		let html = Base.elm.outerHTML
 
@@ -24,33 +25,32 @@ export default option => Base =>{
 
 		Base.reactor = state => {
 
-			let status = { diffs:[] }
+			let status = { diffs:[], hascomponent :false }
 
 			morphdom( Base.elm, soda( html, state ), lifecycle( Base.elm, status ) )
 
-			if( status.hascomponent ){
-				Base.jails.start( Base.elm )
-				status.hascomponent = false
+			if( status.hascomponent )
+				Base.jails.start( Base.elm.parentNode )
+
+			if( status.diffs.length && !status.hascomponent ){
+				status.diffs.forEach( n => Base.jails.destroy( n ) )
+				Base.jails.start( Base.elm.parentNode )
+				status.diffs = []
 			}
-			status.diffs = status.diffs.forEach( n => {
-				Base.jails.destroy( n )
-				Base.jails.start( n.parentNode )
-				return false
-			})
-			status.diffs = []
+
+			status.hascomponent = false
 		}
 	}
 
 	const lifecycle = ( root, status ) => ({
 
 		onBeforeElChildrenUpdated( node ){
-			if( node.getAttribute && node.getAttribute('data-static') )
-				return false
+			return !(node.getAttribute && node.getAttribute('data-static'))
 		},
 
 		onElUpdated( node ){
-			const id = node.__reactorid
-			if(id && (id!= Base.__reactorid))
+			const nodeid = node.__reactorid
+			if(nodeid && ( nodeid!= id))
 				status.diffs.push(node)
 		},
 
