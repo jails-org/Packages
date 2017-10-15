@@ -8,10 +8,7 @@ export {
 
 export default option => Base =>{
 
-	const id = Math.random()
-
-	Base.__reactorid = id
-	Base.elm.__reactorid = id
+	Base.elm.setAttribute('_reactor_', '1')
 
 	if( Base.elm == document.body ){
 		Base.reactor = state => { console.warn('Reactor can`t be used on document.body') }
@@ -19,6 +16,7 @@ export default option => Base =>{
 
 		let template = Base.elm.querySelector('template')
 		let html = Base.elm.outerHTML
+		let newnode = Base.elm
 
 		if( template )
 			html = html.replace(/<template*.>/g, '').replace(/<\/template>/g, '')
@@ -26,32 +24,28 @@ export default option => Base =>{
 		Base.reactor = state => {
 
 			let status = { diffs:[], hascomponent :false }
-
-			morphdom( Base.elm, soda( html, state ), lifecycle( Base.elm, status ) )
+			newnode = morphdom( newnode, soda( html, state ), lifecycle( newnode, status ) )
 
 			if( status.hascomponent )
-				Base.jails.start( Base.elm.parentNode )
-
-			if( status.diffs.length && !status.hascomponent ){
-				status.diffs.forEach( n => Base.jails.destroy( n ) )
-				Base.jails.start( Base.elm.parentNode )
-				status.diffs = []
+				Base.jails.start( Base.elm )
+			else{
+				status.diffs.forEach( n => Base.jails.destroy(n) )
+				if( status.diffs.length){
+					Base.jails.start(Base.elm)
+					status.diffs = []
+				}
 			}
-
 			status.hascomponent = false
 		}
 	}
 
 	const lifecycle = ( root, status ) => ({
 
-		onBeforeElChildrenUpdated( node ){
+		onBeforeElChildrenUpdated( node, tonode ){
+			if( node.getAttribute && node.getAttribute('data-component') )
+				if(!node.getAttribute('_reactor_'))
+					status.diffs.push(node)
 			return !(node.getAttribute && node.getAttribute('data-static'))
-		},
-
-		onElUpdated( node ){
-			const nodeid = node.__reactorid
-			if(nodeid && ( nodeid!= id))
-				status.diffs.push(node)
 		},
 
 		onNodeAdded( node ) {
