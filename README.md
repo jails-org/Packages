@@ -1,6 +1,6 @@
 # Packages
 
-- [Ajax](#ajax) 
+- [Ajax](#ajax)
 - [Async](#async)
 - [Adapters](#adapters)
 - [Architecture](#architecture)
@@ -13,6 +13,7 @@
 - [Templating](#templating)
 - [SPA](#spa)
 - [Date](#date)
+- [Lazyloading](#lazyloading)
 
 
 ### Async
@@ -62,3 +63,6 @@
 
 ### Date
 - [moment.js](https://github.com/moment/moment)
+
+### Lazyloading
+- [lazyload](lazyload)
