@@ -5,15 +5,19 @@ export default options => Base => {
 
 	const base = reactor( options )( Base )
 
-	base.arch = ( {model, actions} ) => {
+	base.arch = ( {model, actions, store} ) => {
 
-		let store = litestore( model )
+		const thestore = store? store : litestore( model )
 
-		store.actions( actions )
-		store.subscribe( state => base.reactor( Object.assign({}, state) ) )
-		store.set( state => state )
+		thestore.actions( actions )
+		thestore.subscribe( state => base.reactor( Object.assign({}, state) ) )
 
-		return store
+		thestore.set( state => {
+			for(let key in model)
+				if( !(key in state) ) state[key] = model[key]
+		})
+
+		return thestore
 	}
 
 	return base
