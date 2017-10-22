@@ -28,11 +28,14 @@ jails('my-component', ( {init, arch} ) => {
 
     //After this call, html view will be automatically updated
     const printuser = () =>
-        store.dispatch('SETNAME', { name :'Peter Parker' })
+        localstore.dispatch('SETNAME', { name :'Peter Parker' })
 
-    const store = arch({
+    const localstore = arch({
         model,
-        actions
+        actions,
+        // store
+        // A existing store can be passed as default store to be augmented
+        // instead of returning a brand new store
     })
 })
 
