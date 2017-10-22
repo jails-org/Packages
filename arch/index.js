@@ -7,7 +7,7 @@ export default options => Base => {
 
 	base.arch = ( {model, actions, store} ) => {
 
-		const thestore = store? store : litestore( model )
+		const thestore = store? store : litestore( Object.assign({}, model) )
 
 		thestore.actions( actions )
 		thestore.subscribe( state => base.reactor( Object.assign({}, state) ) )
