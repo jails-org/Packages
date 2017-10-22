@@ -7,7 +7,7 @@ export default options => Base => {
 
 	base.arch = ( {model, actions, store} ) => {
 
-		const thestore = store? store : litestore( Object.assign({}, model) )
+		const thestore = litestore( Object.assign({}, model) )
 
 		thestore.actions( actions )
 		thestore.subscribe( state => base.reactor( Object.assign({}, state) ) )
@@ -16,6 +16,14 @@ export default options => Base => {
 			for(let key in model)
 				if( !(key in state) ) state[key] = model[key]
 		})
+
+		if( store ){
+			const {dispatch} = thestore
+			thestore.dispatch = ( action, payload ) => {
+				dispatch( action, payload )
+				store.dispatch( action, payload )
+			}
+		}
 
 		return thestore
 	}
