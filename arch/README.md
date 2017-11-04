@@ -19,6 +19,7 @@ A uni-directional architecture inspired in Elm & Redux. It integrates `store` an
 ```js
 import jails from 'jails'
 import arch from 'jails.packages/arch'
+import globalstore from 'stores/globalstore'
 
 jails('my-component', ( {init, arch} ) => {
 
@@ -33,9 +34,7 @@ jails('my-component', ( {init, arch} ) => {
     const localstore = arch({
         model,
         actions,
-        // store
-        // A existing store can be passed as default store to be augmented
-        // instead of returning a brand new store
+        store : globalstore // Store is optional, .dispatch method will be called in both stores.
     })
 })
 
