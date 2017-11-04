@@ -1,30 +1,39 @@
-import loader from 'html-loader'
-import Grapnel 	  from 'grapnel'
+import loader  from '../html-loader'
+import Grapnel from 'grapnel'
 
 export default ({
-	update, load, callback, routes
+	options, initialize, routes, callback, update
 })=>{
 
-	const fnroutes = routes || (()=>{})
+	let pageload = true
+
+	const main = initialize || (()=>null)
 	const render = update || output
-	const router = new Grapnel()
+	const router = new Grapnel( options )
 	const outlet = document.querySelector('[data-outlet]')
 
-	/* @Routing / @Assets */
-	router.get( '/:page', get )
-	router.get( '/:page/*', get )
-	fnroutes( router )
+	for( let route in routes )
+		router.get( route, request( route ) )
 
-	/* @Functions */
-	function get( req, res, next ){
-		const {page} = req.params
-		loader( load(page) )
-			.then( response =>{
-				response.page = page
+	main( router )
+
+	function request( route ){
+
+		return function( req, res, next ){
+
+			const assets = routes[route]( req.params, {req, res, next} )
+
+			if( pageload && outlet.hasChildNodes() && options.pushState ){
+				assets.templateUrl = null
+				pageload = false
+			}
+
+			loader( assets ).then( response =>{
+				response.params = req.params
 				response.outlet = outlet
 				return response
-			})
-			.then( render )
+			}).then( render )
+		}
 	}
 
 	function output( response ){

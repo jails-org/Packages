@@ -10,6 +10,8 @@ A module for building SPA applications using `Jails`.
 - Caches content loaded.
 - Export an interface for callbacks and routing definitions.
 
+More about options and routing references please check out [Grapnel](https://github.com/baseprime/grapnel)
+
 ## Usage
 
 ```js
@@ -18,28 +20,31 @@ import SPA   from 'jails.packages/spa'
 
 SPA({
 
-    routes( router ){
+	options :{
+        // Options for Grapnel, e.g:
+		// pushState :true
+	},
+
+	initialize( router ){
         // Optional routes definition.
         // Redirecting to a default route
-        router.get('', ()=>router.navigate('/home') )
-    },
+		router.get('', ()=> router.navigate('/') )
+	},
 
-    load( page ){
-        //Define where htmlLoader should get all assets
-        //{templateURL} is required
-        return {
-            templateUrl :`templates/${page}/index.htm`,
-            css :`dist/${page}.css`,
-            js  :`dist/${page}.js`
-        }
-    },
+	routes :{
+        //Define where loader should get all assets
+		'/:page?' :( {page = 'home'} ) => ({
+			templateUrl :`front/apps/${page}/index.htm`,
+			css :`public/${page}/index.css`,
+			js  :`public/${page}/index.js`
+		})
+	},
 
-    callback( {page, state, outlet} ){
-
-        if( state == 'loaded')
-            jails.start( outlet )
+	callback( {page, state, outlet} ){
+		if( state == 'loaded')
+			jails.start( outlet )
             //Jails .start will start all lazy loaded components.
-    }
+	}
 })
 ```
 
@@ -52,15 +57,11 @@ import {Router, htmlLoader} from 'jails.packages/spa'
 console.log( Router, htmlLoader )
 ```
 
-
-#### load( page )
-Gets the `/:page/` from url and expect an object returning `templateUrl` for `.html` files (required) and `js`, `css` files which are optional.
-
-#### callback( { page, state, outlet })
+#### callback( { params, state, outlet })
 It's called after outlet is rendered with the new content.
 
-##### `page`
-The visited page
+##### `params`
+The Router params
 
 ##### `state`
 Possible states : loaded | changed

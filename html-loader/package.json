@@ -1,18 +1,16 @@
 {
-  "name": "jails.packages.spa",
+  "name": "jails.packages.html-loader",
   "version": "1.0.0",
-  "description": "SPA Architecture",
+  "description": "Loads your html files and assets dynamically",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "SPA",
-    "jails"
+    "jails",
+    "html",
+    "lazyload"
   ],
   "author": "Javiani",
-  "license": "MIT",
-  "dependencies": {
-    "grapnel": "^0.6.4"
-  }
+  "license": "MIT"
 }
