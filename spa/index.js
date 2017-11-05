@@ -37,10 +37,15 @@ export default ({
 	}
 
 	function output( response ){
-		outlet.innerHTML = ''
-		outlet.appendChild( response.data.html )
-		if( callback ) callback( response )
+		if( response.data.html ){
+			outlet.innerHTML = ''
+			outlet.appendChild( response.data.html )
+		}
+		if( callback )
+			callback( response )
 	}
+
+	return router
 }
 
 export const Router = Grapnel

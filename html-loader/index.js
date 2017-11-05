@@ -22,7 +22,7 @@ export default ( {key, templateUrl, css, js} )=>{
 		return Promise.all( promises )
 			.then( data =>{
 				let [ html, css, js ] = data
-				let response = { js, css, html :parseHtml( html ) }
+				let response = { js, css, html :html? parseHtml( html ) :null }
 				pages[hashname] = response
 				return { state :'loaded', data :response }
 			})
