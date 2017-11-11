@@ -6,6 +6,8 @@ export default ({
 })=>{
 
 	let pageload = true
+	let index
+	let children
 
 	const main = initialize || (()=>null)
 	const render = update || output
@@ -25,14 +27,20 @@ export default ({
 
 			if( pageload && outlet.children.length && options.pushState ){
 				assets.templateUrl = null
-				pageload = false
+				index = route
+				children = document.createElement('div')
+				Array.prototype.slice.call(outlet.children).map( element => children.appendChild( element ) )
 			}
-
-			loader( assets ).then( response =>{
-				response.params = req.params
-				response.outlet = outlet
-				return response
-			}).then( render )
+			if( index === route && options.pushState ){
+				render({ params :req.params, outlet, data:{html :children}, state :pageload?'loaded':'changed' })
+				pageload = false
+			}else{
+				loader( assets ).then( response =>{
+					response.params = req.params
+					response.outlet = outlet
+					return response
+				}).then( render )
+			}
 		}
 	}
 
