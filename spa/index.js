@@ -23,7 +23,7 @@ export default ({
 
 			const assets = routes[route]( req.params, {req, res, next} )
 
-			if( pageload && outlet.hasChildNodes() && options.pushState ){
+			if( pageload && outlet.children.length && options.pushState ){
 				assets.templateUrl = null
 				pageload = false
 			}
