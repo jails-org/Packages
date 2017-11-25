@@ -2,7 +2,7 @@
 
 A module for building SPA applications using `Jails`.
 
-`Dependencies` : [htmlLoader](https://github.com/Javiani/html-loader), [Grapnel](https://github.com/baseprime/grapnel)
+`Dependencies` : [assetsLoader](https://github.com/Jails-org/Packages/assets-loader), [Grapnel](https://github.com/baseprime/grapnel)
 
 ---
 
@@ -20,12 +20,16 @@ import SPA   from 'jails.packages/spa'
 
 SPA({
 
-	//Call jails.start when new content is loaded
-	callback : jails.start,
+	//Required, When assets are ready before the requests
+	onload  : jails.start,
+
+	callback( outlet, {state}){
+		//Optional, hook for page transition
+	},
 
 	options :{
         // Options for Grapnel, e.g:
-		// pushState :true
+		pushState :true
 	},
 
 	initialize( router ){
@@ -41,38 +45,30 @@ SPA({
 			css :`public/${page}/index.css`,
 			js  :`public/${page}/index.js`
 		})
-	},
-
-	callback( {page, state, outlet} ){
-		if( state == 'loaded')
-			jails.start( outlet )
-            //Jails .start will start all lazy loaded components.
 	}
 })
 ```
 
-You can also pull Router and HtmlLoader from this package doing this:
+You can also pull internal resources, Router and assetsLoader:
 
 ```js
 import jails from 'jails-js'
-import {Router, htmlLoader} from 'jails.packages/spa'
+import {Router, loader} from 'jails.packages/spa'
 
-console.log( Router, htmlLoader )
+console.log( Router, loader )
 ```
+
+---
 
 #### callback( { params, state, outlet })
 It's called after outlet is rendered with the new content.
 
-##### `params`
-The Router params
+#### onload ( outlet, {state} )
+This callback will be called only after resources are downloaded.
 
-##### `state`
-Possible states : loaded | changed
-- Loaded for the very first time
-- Changed for visiting the same page already cached.
+---
 
 ##### `outlet`
 Should be a `htmlElement` with `[data-outlet]` on it.
 
-#### update( response )
-Overrides the outlet appendChild default behavior. You have to get the outlet and append data for your own.
+##### `state` : enter | end | load
