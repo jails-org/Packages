@@ -1,61 +1,43 @@
-import loader  from '../html-loader'
-import Grapnel from 'grapnel'
-
-export default ({
-	options, initialize, routes, callback, update
-})=>{
-
-	let pageload = true
-	let index
-	let children
-
-	const main = initialize || (()=>null)
-	const render = update || output
-	const router = new Grapnel( options )
-	const outlet = document.querySelector('[data-outlet]')
-
-	for( let route in routes )
-		router.get( route, request( route ) )
-
-	main( router )
-
-	function request( route ){
-
-		return function( req, res, next ){
-
-			const assets = routes[route]( req.params, {req, res, next} )
-
-			if( pageload && outlet.children.length && options.pushState ){
-				assets.templateUrl = null
-				index = route
-				children = document.createElement('div')
-				Array.prototype.slice.call(outlet.children).map( element => children.appendChild( element ) )
-			}
-			if( index === route && options.pushState ){
-				render({ params :req.params, outlet, data:{html :children}, state :pageload?'loaded':'changed' })
-				pageload = false
-			}else{
-				loader( assets ).then( response =>{
-					response.params = req.params
-					response.outlet = outlet
-					return response
-				}).then( render )
-			}
-		}
-	}
-
-	function output( response ){
-		if( response.data.html ){
-			outlet.innerHTML = ''
-			outlet.appendChild( response.data.html )
-		}
-		if( callback )
-			callback( response )
-	}
-
-	return router
-}
+import assetsloader from '../assets-loader'
+import Grapnel from 'Grapnel'
 
 export const Router = Grapnel
 
-export const htmlLoader = loader
+export default ( {options, initialize, routes, callback } ) => {
+
+	const cache	  = {}
+	const noop	  = (() => null)
+	const router  = new Router( options )
+	const start   = initialize || noop
+	const outlet  = document.querySelector('[data-outlet]')
+
+	start( router )
+
+	for( let route in routes ){
+
+		router.get( route, (req, res, next) => {
+
+			const assets 	= routes[route]( req.params, {req, res, next} )
+			const selector	= `[data-component*=${assets.component}]`
+			const component	= document.querySelector( selector )
+			const key 		= assets.component
+
+			if( !component ){
+				if( cache[key] ){
+					outlet.innerHTML = ''
+					outlet.appendChild( cache[key] )
+				}else{
+					const {css, js, templateUrl:html} = assets
+					assetsloader({css, js, html})
+						.then(( {html, js, css} ) => {
+							outlet.innerHTML = html
+							cache[ key ] = outlet.querySelector( selector )
+							callback? callback( outlet, {html, js, css} ) :null
+						})
+				}
+			}else{
+				cache[ key ] = outlet.querySelector( selector )
+			}
+		})
+	}
+}

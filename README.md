@@ -33,6 +33,7 @@
 - [walker](https://github.com/Javiani/Walker)
 
 ### Loaders
+- [assets-loader](assets-loader)
 - [html-loader](html-loader)
 - [scriptjs](https://github.com/ded/script.js)
 

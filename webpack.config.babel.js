@@ -15,12 +15,10 @@ const loaders = [{
 	}
 }]
 
-const library = (name)=>({
+const library = name => ({
 	plugins,
 	entry 	:`./${name}/index.js`,
-	externals :{
-		'jails-js':'jails-js'
-	},
+	externals :{ 'jails-js':'jails-js' },
 	module	:{ loaders },
 	output  :{
 		filename :`${name}/dist/index.js`,
@@ -30,7 +28,7 @@ const library = (name)=>({
 	}
 })
 
-export default glob.sync('./!(node_modules)/index.js').map( file =>{
+export default glob.sync('./!(node_modules)/index.js').map( file => {
 	let name = path.basename(path.dirname(file))
 	return library(name)
 })

@@ -20,6 +20,9 @@ import SPA   from 'jails.packages/spa'
 
 SPA({
 
+	//Call jails.start when new content is loaded
+	callback : jails.start,
+
 	options :{
         // Options for Grapnel, e.g:
 		// pushState :true
