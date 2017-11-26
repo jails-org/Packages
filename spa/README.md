@@ -23,8 +23,11 @@ SPA({
 	//Required, When assets are ready before the requests
 	onload  : jails.start,
 
-	callback( outlet, {state}){
-		//Optional, hook for page transition
+	//Optional, hook for transition between pages
+	transition( outlet, next ){
+		// doSomething( outlet )
+		// Switch outlet content then do something later
+		// next().then(()=> { doSomethingAfter() })
 	},
 
 	options :{
@@ -49,7 +52,7 @@ SPA({
 })
 ```
 
-You can also pull internal resources, Router and assetsLoader:
+You can also pull internal resources used in spa module, like Router and assetsLoader:
 
 ```js
 import jails from 'jails-js'
@@ -65,6 +68,9 @@ It's called after outlet is rendered with the new content.
 
 #### onload ( outlet, {state} )
 This callback will be called only after resources are downloaded.
+
+#### transition( outlet, next )
+Like a middleware, used to do actions before and after content is changed.
 
 ---
 
