@@ -1,21 +1,25 @@
 import assetsloader from '../assets-loader'
 import Grapnel from 'Grapnel'
 
+const noop = (()=>null)
+
 export const Router = Grapnel
 export const loader = assetsloader
 
-export default ( {options, initialize, routes, transition, onload } ) => {
+export default ( {
+	options,
+	routes,
+	initialize = noop,
+	onload = noop,
+	callback = noop,
+	transition = ((next) => next())
+}) => {
 
 	const cache	  = {}
-	const noop	  = (() => null)
-	const change  = transition || ((outlet,next) => next())
-	const start   = initialize || noop
-	const callback= onload || noop
 	const router  = new Router( options )
-
 	const outlet  = document.querySelector('[data-outlet]')
 
-	start( router, outlet )
+	initialize( router, outlet )
 
 	for( let route in routes ){
 
@@ -25,27 +29,30 @@ export default ( {options, initialize, routes, transition, onload } ) => {
 			const selector	= `[data-component*=${assets.component}]`
 			const component	= document.querySelector( selector )
 			const key 		= assets.component
+			const params 	= {router, req, res, next, outlet}
 
 			if( !component ){
 				if( cache[ key ] ){
-					change(outlet, ()=>{
+					transition(()=>{
 						return new Promise((resolve)=>{
 							outlet.innerHTML = ''
 							outlet.appendChild( cache[key] )
 							resolve( outlet )
+							if( callback ) callback( params )
 						})
-					})
+					}, params)
 				}else{
 					const {css, js, templateUrl:html} = assets
-					change(outlet, ()=>{
+					transition(()=>{
 						return assetsloader({css, js, html})
 							.then(( {html} )=> {
 								outlet.innerHTML = html
 								cache[ key ] = outlet.querySelector( selector )
-								if( callback ) callback( outlet )
+								if( onload ) onload( outlet )
+								if( callback ) callback( params )
 								return outlet
 							})
-					})
+					}, params)
 				}
 			}else{
 				cache[ key ] = outlet.querySelector( selector )

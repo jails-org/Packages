@@ -20,19 +20,26 @@ import SPA   from 'jails.packages/spa'
 
 SPA({
 
+	options :{
+        // Options for Grapnel, e.g:
+		pushState :true
+	},
+
+	// Optional callback
+	callback ({outlet, req, res, router, next}){
+
+	},
+
 	//Required, When assets are ready before the requests
 	onload  : jails.start,
 
 	//Optional, hook for transition between pages
-	transition( outlet, next ){
-		// doSomething( outlet )
-		// Switch outlet content then do something later
-		// next().then(()=> { doSomethingAfter() })
-	},
-
-	options :{
-        // Options for Grapnel, e.g:
-		pushState :true
+	transition( next, {outlet, req, res, router, next} ){
+		// doSomething()
+		// Switch outlet content
+		// next()
+		// then do something later
+		// .then(()=> { doSomethingAfter() })
 	},
 
 	initialize( router ){
@@ -63,15 +70,14 @@ console.log( Router, loader )
 
 ---
 
-#### callback( { params, state, outlet })
-It's called after outlet is rendered with the new content.
-
 #### onload ( outlet, {state} )
 This callback will be called only after resources are downloaded.
 
 #### transition( outlet, next )
 Like a middleware, used to do actions before and after content is changed.
 
+#### callback({router, req, res, next, outlet})
+A callback called on every page change
 ---
 
 ##### `outlet`
