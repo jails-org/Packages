@@ -1,5 +1,9 @@
 import litestore from '../store'
-import reactor from '../reactor'
+import reactor, {soda} from '../reactor'
+
+export {
+	soda
+}
 
 export default options => Base => {
 
