@@ -8,13 +8,19 @@ export {
 export default options => Base => {
 
 	const base = reactor( options )( Base )
+	const id = +base.elm.getAttribute( Base.reactor.REACTORID )
+	const initialmodel = base.reactor.model[id]
 
 	base.arch = ( {model, actions, store} ) => {
 
+		model = initialmodel || model
 		const thestore = litestore( Object.assign({}, model) )
 
 		thestore.actions( actions )
-		thestore.subscribe( state => base.reactor( Object.assign({}, state) ) )
+		thestore.subscribe( state => {
+			const newstate = Object.assign({}, state)
+			base.reactor( newstate )
+		})
 
 		thestore.set( state => {
 			for(let key in model)

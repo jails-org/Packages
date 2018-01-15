@@ -1,6 +1,6 @@
 {
   "name": "jails.packages.arch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A uni-directional flow for Jails/Reactor apps",
   "main": "dist/index.js",
   "scripts": {
