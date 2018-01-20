@@ -20,6 +20,9 @@ export default option => Base => {
 		Base.reactor = state => console.warn('Reactor can`t be used on document.body')
 	}else{
 
+		if( !Base.elm.getAttribute( REACTORID) )
+			setTemplate(Base.elm)
+
 		const tid  	  = +Base.elm.getAttribute( REACTORID )
 		const html 	  = templates[ tid ]
 
@@ -41,10 +44,6 @@ export default option => Base => {
 			model[tid] = newstate
 			firstime   = false
 		}
-
-		Base.reactor.templates = templates
-		Base.reactor.model = model
-		Base.reactor.REACTORID = REACTORID
 	}
 
 	const lifecycle = ( root, status ) => ({
@@ -68,16 +67,22 @@ export default option => Base => {
 		}
 	})
 
+	Base.reactor.templates = templates
+	Base.reactor.model = model
+	Base.reactor.REACTORID = REACTORID
+
 	return Base
 
 }
 
-function setTemplate( context = document.body ){
+function setTemplate( context = document.documentElement ){
 
 	const elements   = context.querySelectorAll('[data-component]')
-	const components = Array.prototype.slice.call( elements )
+	const components = Array.prototype.slice.call( elements ).concat(context)
 
 	components.forEach( elm => {
+		if( elm == document.body )
+			return
 		if( !elm.getAttribute( REACTORID ) )
 			elm.setAttribute( REACTORID, id++ )
 	})
