@@ -3,6 +3,7 @@
 - [Ajax](#ajax)
 - [Async](#async)
 - [Adapters](#adapters)
+- [Authentication](#hellojs)
 - [Architecture](#architecture)
 - [JSON Data Manipulation](#json)
 - [Loaders](#loaders)
@@ -15,7 +16,6 @@
 - [Date](#date)
 - [Lazyloading](#lazyloading)
 
-
 ### Async
 - [asynquence](https://github.com/getify/asynquence)
 
@@ -25,6 +25,9 @@
 
 ### Adapters
 - [jQuery.adapter](jquery.adapter)
+
+### Authentication 
+- [hellojs](http://adodson.com/hello.js)
 
 ### Architecture
 - [arch](arch)
