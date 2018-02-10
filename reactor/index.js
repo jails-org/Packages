@@ -75,7 +75,7 @@ export default option => Base => {
 
 }
 
-function setTemplate( context = document.documentElement ){
+function setTemplate( context = document.body ){
 
 	const elements   = context.querySelectorAll('[data-component]')
 	const components = Array.prototype.slice.call( elements ).concat(context)
