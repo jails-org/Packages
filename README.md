@@ -8,18 +8,6 @@
 
 # General Packages
 
-- [Ajax](#ajax)
-- [Async](#async)
-- [Authentication](#authentication)
-- [Data Manipulation](#data)
-- [Loaders](#loaders)
-- [Router](#routers)
-- [DOM](#dom)
-- [Templating](#templating)
-- [SPA](#spa)
-- [Date](#date)
-- [Lazyloading](#lazyloading)
-
 ### Async
 - [asynquence](https://github.com/getify/asynquence)
 
