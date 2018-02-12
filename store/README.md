@@ -20,8 +20,10 @@ export default myStore = store({
 
 myStore.actions({
 
-	CHANGE_NAME( state, payload ){
-		return state
+	CHANGE_NAME( state, {name} ){
+		return {
+			name
+		}
 	}
 })
 
@@ -33,10 +35,11 @@ import myStore from './mystore'
 
 //Bla bla bla code....
 
-myStore.subscribe((state, { action, oldstate })=>{
+myStore.subscribe((state, { action, oldstate, payload })=>{
 	console.log( 'The action dispatched was', action )
 	console.log( 'All the state', state )
 	console.log( 'IF you need the old state', oldstate )
+	console.log( 'Payload used :', payload )
 })
 
 myStore.dispatch('CHANGE_NAME', {
