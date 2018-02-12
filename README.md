@@ -9,6 +9,8 @@
 # General Packages
 
 ### Async
+- [xstream](https://github.com/staltz/xstream)
+- [RxJs](https://github.com/ReactiveX/rxjs)
 - [asynquence](https://github.com/getify/asynquence)
 
 ### Ajax
