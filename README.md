@@ -1,4 +1,4 @@
-# Jails Packages
+## Jails Packages
 - [arch](arch)
 - [logger](logger)
 - [store](store)
@@ -6,7 +6,7 @@
 - [jQuery.adapter](jquery.adapter)
 - [reactor](reactor)
 
-# General Packages
+## General Packages
 
 ### Async
 - [xstream](https://github.com/staltz/xstream)
