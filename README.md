@@ -1,4 +1,7 @@
-## Jails Packages
+
+>A `realm` containing a curated list of great packages found on github plus some official packages developed for `Jails`.
+
+## Jails Official Packages
 - [arch](arch)
 - [logger](logger)
 - [store](store)
