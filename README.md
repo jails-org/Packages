@@ -1,58 +1,40 @@
-# Packages
 
-- [Ajax](#ajax)
-- [Async](#async)
-- [Adapters](#adapters)
-- [Authentication](#hellojs)
-- [Architecture](#architecture)
-- [JSON Data Manipulation](#json)
-- [Loaders](#loaders)
-- [Loggers](#loggers)
-- [Router](#routers)
-- [Persistency](#persistency)
-- [DOM](#dom)
-- [Templating](#templating)
-- [SPA](#spa)
-- [Date](#date)
-- [Lazyloading](#lazyloading)
+>A Realm containing a curated list of great packages found on github plus some official packages developed for Jails.
+
+## Jails Official Packages
+- [arch](arch)
+- [logger](logger)
+- [store](store)
+- [SPA](spa)
+- [jQuery.adapter](jquery.adapter)
+- [reactor](reactor)
+
+## General Packages
 
 ### Async
+- [xstream](https://github.com/staltz/xstream)
+- [RxJs](https://github.com/ReactiveX/rxjs)
 - [asynquence](https://github.com/getify/asynquence)
 
 ### Ajax
 - [axios](https://github.com/mzabriskie/axios)
 - [cross-fetch](https://github.com/lquixada/cross-fetch)
 
-### Adapters
-- [jQuery.adapter](jquery.adapter)
-
 ### Authentication 
 - [hellojs](http://adodson.com/hello.js)
 
-### Architecture
-- [arch](arch)
-
-### JSON Data Manipulation
+### Data Manipulation
 - [walker](https://github.com/Javiani/Walker)
 
 ### Loaders
-- [assets-loader](assets-loader)
-- [html-loader](html-loader)
 - [scriptjs](https://github.com/ded/script.js)
-
-### Loggers
-- [logger](logger)
 
 ### Router
 - [grapnel](https://github.com/baseprime/grapnel)
 - [page.js](https://github.com/visionmedia/page.js)
 - [vanilla-ui-router](https://github.com/micromata/vanilla-ui-router)
 
-### Persistency
-- [store](store)
-
 ### DOM
-- [reactor](reactor)
 - [morphdom](https://github.com/patrick-steele-idem/morphdom)
 
 ### Templating
@@ -63,7 +45,6 @@
 - [art-template](https://github.com/aui/art-template)
 
 ### SPA
-- [SPA](spa)
 - [TurboLinks](https://github.com/turbolinks/turbolinks)
 
 ### Date
