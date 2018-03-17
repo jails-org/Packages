@@ -12,67 +12,70 @@ const templates = {}
 const model = {}
 const REACTORID = 'data-reactor-id'
 
-setTemplate()
+export default option => {
 
-export default option => Base => {
+	setTemplate()
 
-	if( Base.elm == document.body ){
-		Base.reactor = state => console.warn('Reactor can`t be used on document.body')
-	}else{
+	return Base => {
 
-		if( !Base.elm.getAttribute( REACTORID) )
-			setTemplate(Base.elm)
+		if( Base.elm == document.body ){
+			Base.reactor = state => console.warn('Reactor can`t be used on document.body')
+		}else{
 
-		const tid  	  = +Base.elm.getAttribute( REACTORID )
-		const html 	  = templates[ tid ]
+			if( !Base.elm.getAttribute( REACTORID) )
+				setTemplate(Base.elm)
 
-		let newnode   = Base.elm
-		let firstime  = true
+			const tid  	  = +Base.elm.getAttribute( REACTORID )
+			const html 	  = templates[ tid ]
 
-		Base.reactor = state => {
+			let newnode   = Base.elm
+			let firstime  = true
 
-			let newstate = Object.assign({}, (firstime && model[tid])? model[tid] : state)
-			let status = { hascomponent :false }
-			newnode = morphdom( newnode, soda( html, newstate ), lifecycle( newnode, status ) )
+			Base.reactor = state => {
 
-			if( status.hascomponent ){
-				setTemplate( newnode )
-				Base.jails.start( newnode )
+				let newstate = Object.assign({}, (firstime && model[tid])? model[tid] : state)
+				let status = { hascomponent :false }
+				newnode = morphdom( newnode, soda( html, newstate ), lifecycle( newnode, status ) )
+
+				if( status.hascomponent ){
+					setTemplate( newnode )
+					Base.jails.start( newnode )
+				}
+
+				status.hascomponent = false
+				model[tid] = newstate
+				firstime   = false
 			}
-
-			status.hascomponent = false
-			model[tid] = newstate
-			firstime   = false
 		}
+
+		const lifecycle = ( root, status ) => ({
+
+			onBeforeElChildrenUpdated( node, tonode ){
+				return !(node.getAttribute && node.getAttribute('data-static'))
+			},
+
+			onNodeAdded( node ) {
+				if( node.getAttribute && node.getAttribute('data-component') && !node.j ){
+					status.hascomponent = true
+				}
+			},
+
+			onBeforeNodeDiscarded( node ){
+				if( node.getAttribute && node.getAttribute('data-component') && node.j ){
+					const newid = +node.getAttribute( REACTORID )
+					Base.jails.destroy( node )
+					delete templates[newid]
+				}
+			}
+		})
+
+		Base.reactor.templates = templates
+		Base.reactor.model = model
+		Base.reactor.REACTORID = REACTORID
+
+		return Base
+
 	}
-
-	const lifecycle = ( root, status ) => ({
-
-		onBeforeElChildrenUpdated( node, tonode ){
-			return !(node.getAttribute && node.getAttribute('data-static'))
-		},
-
-		onNodeAdded( node ) {
-			if( node.getAttribute && node.getAttribute('data-component') && !node.j ){
-				status.hascomponent = true
-			}
-		},
-
-		onBeforeNodeDiscarded( node ){
-			if( node.getAttribute && node.getAttribute('data-component') && node.j ){
-				const newid = +node.getAttribute( REACTORID )
-				Base.jails.destroy( node )
-				delete templates[newid]
-			}
-		}
-	})
-
-	Base.reactor.templates = templates
-	Base.reactor.model = model
-	Base.reactor.REACTORID = REACTORID
-
-	return Base
-
 }
 
 function setTemplate( context = document.body ){
