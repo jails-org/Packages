@@ -8,6 +8,7 @@
 - [SPA](spa)
 - [jQuery.adapter](jquery.adapter)
 - [reactor](reactor)
+- [LinkQ](linkq)
 
 ## General Packages
 
@@ -20,7 +21,7 @@
 - [axios](https://github.com/mzabriskie/axios)
 - [cross-fetch](https://github.com/lquixada/cross-fetch)
 
-### Authentication 
+### Authentication
 - [hellojs](http://adodson.com/hello.js)
 
 ### Data Manipulation
@@ -29,7 +30,7 @@
 ### Loaders
 - [scriptjs](https://github.com/ded/script.js)
 
-### Router
+### Routers
 - [grapnel](https://github.com/baseprime/grapnel)
 - [page.js](https://github.com/visionmedia/page.js)
 - [vanilla-ui-router](https://github.com/micromata/vanilla-ui-router)
