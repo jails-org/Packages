@@ -35,15 +35,24 @@ import myStore from './mystore'
 
 //Bla bla bla code....
 
-myStore.subscribe((state, { action, oldstate, payload })=>{
+myStore.subscribe((state, { action, payload })=>{
     console.log( 'The action dispatched was', action )
     console.log( 'All the state', state )
-    console.log( 'IF you need the old state', oldstate )
     console.log( 'Payload used :', payload )
 })
 
 myStore.dispatch('CHANGE_NAME', {
     name :'Eduardo Ottaviani'
+})
+```
+
+You can also specify an action on a subscribe :
+
+```js
+myStore.subscribe({
+    CHANGE_NAME :( state, {action, payload}) => {
+        //Do Something
+    }
 })
 ```
 
