@@ -7,6 +7,7 @@ export {
 }
 
 let id = 0
+let id2 = 0
 
 const templates = {}
 const model = {}
@@ -22,9 +23,6 @@ export default option => {
 			Base.reactor = state => console.warn('Reactor can`t be used on document.body')
 		}else{
 
-			if( !Base.elm.getAttribute( REACTORID) )
-				setTemplate(Base.elm)
-
 			const tid  	  = +Base.elm.getAttribute( REACTORID )
 			const html 	  = templates[ tid ]
 
@@ -38,8 +36,11 @@ export default option => {
 				newnode = morphdom( newnode, soda( html, newstate ), lifecycle( newnode, status ) )
 
 				if( status.hascomponent ){
-					setTemplate( newnode )
 					Base.jails.start( newnode )
+					newnode.setAttribute( REACTORID, id++)
+					templates[id] = newnode.outerHTML
+						.replace(/<template*.>/g, '')
+						.replace(/<\/template>/g, '')
 				}
 
 				status.hascomponent = false
@@ -80,26 +81,22 @@ export default option => {
 
 function setTemplate( context = document.body ){
 
-	const elements   = context.querySelectorAll('[data-component]')
-	const components = Array.prototype.slice.call( elements ).concat(context)
+	const virtual = document.createElement('div')
 
-	components.forEach( elm => {
-		if( elm == document.body )
-			return
-		if( !elm.getAttribute( REACTORID ) )
-			elm.setAttribute( REACTORID, id++ )
+	virtual.innerHTML = context.innerHTML
+		.replace(/<template*.>/g, '')
+		.replace(/<\/template>/g, '')
+
+	const virtualElements = virtual.querySelectorAll('[data-component]')
+	const virtualComponents = Array.prototype.slice.call( virtualElements )
+	const elements = Array.prototype.slice.call(context.querySelectorAll('[data-component]'))
+
+	virtualComponents.forEach( elm => elm.setAttribute( REACTORID, id++ ))
+	virtualComponents.forEach( elm => {
+		const ID = +elm.getAttribute( REACTORID )
+		if( !templates[ ID ] )
+			templates[ ID ] = elm.outerHTML
 	})
 
-	components.forEach( elm => {
-		if( elm.getAttribute( REACTORID ) ){
-			const newid = +elm.getAttribute( REACTORID )
-			if( !templates[ newid ] ){
-				templates[ newid ] = !elm.querySelector('template')
-					? elm.outerHTML
-					: elm.outerHTML
-						.replace(/<template*.>/g, '')
-						.replace(/<\/template>/g, '')
-			}
-		}
-	})
+	elements.forEach( elm => elm.setAttribute(REACTORID, id2++) )
 }

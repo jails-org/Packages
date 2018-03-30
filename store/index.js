@@ -14,10 +14,6 @@ export default ( state = {} ) => {
 			publisher.publish( UPDATE, { state } )
 		},
 
-		when( actions ){
-
-		},
-
 		actions( actions ){
 			for( let action in actions )
 				publisher.subscribe( action, payload =>{
