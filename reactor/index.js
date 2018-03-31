@@ -7,7 +7,6 @@ export {
 }
 
 let id = 0
-let id2 = 0
 
 const templates = {}
 const model = {}
@@ -91,12 +90,16 @@ function setTemplate( context = document.body ){
 	const virtualComponents = Array.prototype.slice.call( virtualElements )
 	const elements = Array.prototype.slice.call(context.querySelectorAll('[data-component]'))
 
-	virtualComponents.forEach( elm => elm.setAttribute( REACTORID, id++ ))
+	virtualComponents.forEach( (elm, index) => {
+		elm.setAttribute( REACTORID, id )
+		if( elements[ index ] )
+			elements[ index ].setAttribute( REACTORID, id )
+		id = id + 1
+	})
+
 	virtualComponents.forEach( elm => {
 		const ID = +elm.getAttribute( REACTORID )
 		if( !templates[ ID ] )
 			templates[ ID ] = elm.outerHTML
 	})
-
-	elements.forEach( elm => elm.setAttribute(REACTORID, id2++) )
 }
