@@ -32,14 +32,17 @@ export default option => {
 
 				let newstate = Object.assign({}, (firstime && model[tid])? model[tid] : state)
 				let status = { hascomponent :false }
-				newnode = morphdom( newnode, soda( html, newstate ), lifecycle( newnode, status ) )
+
+				newnode = morphdom( Base.elm, soda( html, newstate ), lifecycle( newnode, status ) )
 
 				if( status.hascomponent ){
 					Base.jails.start( newnode )
-					newnode.setAttribute( REACTORID, id++)
-					templates[id] = newnode.outerHTML
-						.replace(/<template*.>/g, '')
-						.replace(/<\/template>/g, '')
+					if( !Base.elm.getAttribute(REACTORID) ){
+						Base.elm.setAttribute( REACTORID, id++)
+						templates[id] = newnode.outerHTML
+							.replace(/<template*.>/g, '')
+							.replace(/<\/template>/g, '')
+					}
 				}
 
 				status.hascomponent = false
@@ -81,21 +84,18 @@ export default option => {
 function setTemplate( context = document.body ){
 
 	const virtual = document.createElement('div')
+	const elements = Array.prototype.slice.call(context.querySelectorAll('[data-component]'))
+
+	elements.forEach( (elm, index) => elm.setAttribute( REACTORID, id++ ) )
 
 	virtual.innerHTML = context.innerHTML
 		.replace(/<template*.>/g, '')
 		.replace(/<\/template>/g, '')
 
-	const virtualElements = virtual.querySelectorAll('[data-component]')
-	const virtualComponents = Array.prototype.slice.call( virtualElements )
-	const elements = Array.prototype.slice.call(context.querySelectorAll('[data-component]'))
+	const virtualComponents = Array.prototype.slice.call(virtual.querySelectorAll('[data-component]'))
+	const newItems = virtualComponents.filter(item => !item.getAttribute(REACTORID))
 
-	virtualComponents.forEach( (elm, index) => {
-		elm.setAttribute( REACTORID, id )
-		if( elements[ index ] )
-			elements[ index ].setAttribute( REACTORID, id )
-		id = id + 1
-	})
+	newItems.forEach( elm => elm.setAttribute( REACTORID, id++ ))
 
 	virtualComponents.forEach( elm => {
 		const ID = +elm.getAttribute( REACTORID )
