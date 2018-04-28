@@ -28,7 +28,7 @@ const profile = ( jails )=>{
 
 const markup = ( components )=>{
 	for(let name in components)
-		if( !document.querySelector('[data-component*='+name+']') ){
+		if( !document.querySelector('[data-component*="'+name+'"]') ){
 			console.info('[ Logger ]', name, 'was not found in markup on jails.start()')
 		}
 }
@@ -79,7 +79,7 @@ const checkorder = (jails) =>{
 
 			return function( method ){
 
-				let selector = '[data-component*='+n+']'
+				let selector = '[data-component*="'+n+'"]'
 				let found = false
 				query = query? selector + query : selector
 
