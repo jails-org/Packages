@@ -2,12 +2,9 @@ export default ( {html, css, js} )=>{
 
 	const promises = []
 
-	if( css )
-		promises.push( style( css ) )
-	if( js )
-		promises.push( script( js ) )
-	if( html )
-		promises.push( template( html ) )
+	promises.push( css? style( css ) : {} )
+	promises.push( js? script( js ) : {} )
+	promises.push( html? template( html ) : {} )
 
 	return Promise.all( promises )
 		.then( data => {
@@ -45,7 +42,7 @@ const style = css => {
 		const link = document.createElement('link')
 		link.rel = 'stylesheet'
 		link.href = css
+		link.onload = () => resolve( link )
 		document.head.appendChild( link )
-		resolve( link )
 	})
 }
