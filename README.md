@@ -5,10 +5,12 @@
 - [arch](arch)
 - [logger](logger)
 - [store](store)
+- [reactor](reactor)
+- [router](router)
+- [LinkQ](linkq)
 - [SPA](spa)
 - [jQuery.adapter](jquery.adapter)
-- [reactor](reactor)
-- [LinkQ](linkq)
+
 
 ## General Packages
 
