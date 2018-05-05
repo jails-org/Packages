@@ -34,7 +34,8 @@ jails('my-component', ( {init, arch} ) => {
     const localstore = arch({
         model,
         actions,
-        store : globalstore // Store is optional, .dispatch method will be called in both stores.
+        store : globalstore // Store is optional, .dispatch method will be called in both stores.,
+        beforeUpdate() {} // Optional, Do something with final state before updates.
     })
 })
 

@@ -15,7 +15,7 @@ export default options => {
 		const id = +base.elm.getAttribute( Base.reactor.REACTORID )
 		const initialmodel = base.reactor.model[id]
 
-		base.arch = ( {model, actions, store} ) => {
+		base.arch = ( {model, actions, store, beforeUpdate} ) => {
 
 			model = initialmodel || model
 			const thestore = litestore( Object.assign({}, model) )
@@ -23,7 +23,7 @@ export default options => {
 			thestore.actions( actions )
 			thestore.subscribe( state => {
 				const newstate = Object.assign({}, state)
-				base.reactor( newstate )
+				base.reactor( beforeUpdate? beforeUpdate(newstate) : newstate )
 			})
 
 			thestore.set( state => {
