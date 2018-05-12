@@ -31,6 +31,7 @@ const template = url => {
 const script = js => {
 	return new Promise(( resolve, reject )=>{
 		let s = document.createElement('script')
+		s.async = true
 		s.onload = ()=> resolve( s )
 		s.src = js
 		document.head.appendChild( s )
