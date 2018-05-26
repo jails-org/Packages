@@ -1,45 +1,48 @@
-export default ( box, callback ) => {
+export default ( elm, config ) => {
 
 	const handler = ( event ) => {
 
 		const type = event.animationName? 'animation' : 'transition'
-
-		if( type == 'animation' ) {
-			const action = `${type}end:${event.animationName}`
-			callback(action, event)
-		}else {
-			const action = `${type}end:${event.propertyName}`
-			callback(action, event)
+		
+		switch( type ){
+			case 'transition':
+				const tname = event.target.getAttribute('data-animation-name')
+				const ttarget = (tname? `${tname}:` :'') + event.propertyName
+				if( ttarget in config )
+					config[ttarget](event)
+				break
+			case 'animation':
+				const aname = event.target.getAttribute('data-animation-name')
+				const atarget = (aname? `${aname}:` :'') + event.animationName
+				if( atarget in config )
+					config[atarget](event)
 		}
 	}
 
-	box.addEventListener(animationEnd, handler)
-	box.addEventListener(transitionEnd, handler)
+	elm.addEventListener(animationEnd, handler)
+	elm.addEventListener(transitionEnd, handler)
 
-	return {
-		off(){
-			box.removeEventListener(animationEnd, handler)
-			box.removeEventListener(transitionEnd, handler)
-		}
+	//off()
+	return () => {
+		elm.removeEventListener(animationEnd, handler)
+		elm.removeEventListener(transitionEnd, handler)
 	}
 }
 
-const animationEnd = (( object ) => {
+const getPrefix = ( object ) => {
 	for( let key in object )
 		if( key in document.body.style )
-			return object[key]
-})({
+			return object[key]	
+}
+
+const animationEnd = getPrefix({
 	animation      : 'animationend',
 	OAnimation     : 'oAnimationEnd',
 	MozAnimation   : 'animationend',
 	WebkitAnimation: 'webkitAnimationEnd'
 })
 
-const transitionEnd = (( object ) => {
-	for( let key in object )
-		if( key in document.body.style )
-			return object[key]
-})({
+const transitionEnd = getPrefix({
 	transition     : 'transitionend',
 	OTransition    : 'oTransitionEnd',
 	MozTransition  : 'transitionend',
