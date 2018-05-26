@@ -7,13 +7,13 @@ export default ( elm, config ) => {
 		switch( type ){
 			case 'transition':
 				const tname = event.target.getAttribute('data-animation-name')
-				const ttarget = (tname? `${tname}:` :'') + event.propertyName
+				const ttarget = (tname? `${tname}@` :'') + event.propertyName
 				if( ttarget in config )
 					config[ttarget](event)
 				break
 			case 'animation':
 				const aname = event.target.getAttribute('data-animation-name')
-				const atarget = (aname? `${aname}:` :'') + event.animationName
+				const atarget = (aname? `${aname}@` :'') + event.animationName
 				if( atarget in config )
 					config[atarget](event)
 		}
