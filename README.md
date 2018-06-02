@@ -39,6 +39,7 @@
 
 ### DOM
 - [morphdom](https://github.com/patrick-steele-idem/morphdom)
+- [in-view](https://github.com/camwiegert/in-view)
 
 ### Templating
 - [sodajs](https://github.com/AlloyTeam/sodajs)
@@ -48,6 +49,7 @@
 - [art-template](https://github.com/aui/art-template)
 
 ### SPA
+- [Pjax](https://github.com/MoOx/pjax)
 - [TurboLinks](https://github.com/turbolinks/turbolinks)
 
 ### Date
