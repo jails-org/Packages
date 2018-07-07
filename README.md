@@ -23,8 +23,9 @@
 - [axios](https://github.com/mzabriskie/axios)
 - [cross-fetch](https://github.com/lquixada/cross-fetch)
 
-### Authentication
+### Authentication & Authorization
 - [hellojs](http://adodson.com/hello.js)
+- [casl](https://github.com/stalniy/casl)
 
 ### Data Manipulation
 - [walker](https://github.com/Javiani/Walker)
