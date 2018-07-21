@@ -1,86 +1,58 @@
 # spa
 
 A module for building SPA applications using `Jails`.
-
-`Dependencies` : [assetsLoader](https://github.com/Jails-org/Packages/assets-loader), [Grapnel](https://github.com/baseprime/grapnel)
-
 ---
 
-- It lazy loads html, css, js content accordingly to url routes.
-- Caches content loaded.
-- Export an interface for callbacks and routing definitions.
-
-More about options and routing references please check out [Grapnel](https://github.com/baseprime/grapnel)
+The `spa` package uses the amazing `Pjax` library to fetch the next page content and update the current page without having to refresh the entire page.
 
 ## Usage
+
+You need to specify your 3 required dynamic contents in your application:
+- **data-outlet** : Should be used on the holder where the new content will be replaced.
+- **data-stylesheet** : Should be used in your `<link>` element.
+- **data-script** : Should be used in your page `<script>` element.
+
+--- 
+
+```html
+<!-- ... -->
+<link rel="stylesheet" href="home.css" data-stylesheet />
+<script async src="home.js" data-script></script>
+<!-- ... -->
+<body>
+    <div data-outlet>
+        <h1>Hello World!, I'm at home!</h1>
+    </div>
+</body>
+<!-- ... -->
+```
 
 ```js
 import jails from 'jails-js'
 import SPA   from 'jails.packages/spa'
 
-SPA({
-
-	options :{
-        // Options for Grapnel, e.g:
-		pushState :true
-	},
-
-	// Optional callback
-	callback ({outlet, req, res, router, next}){
-
-	},
-
-	//Required, When assets are ready before the requests
-	onload  : jails.start,
-
-	//Optional, hook for transition between pages
-	transition( next, {outlet, req, res, router, next} ){
-		// doSomething()
-		// Switch outlet content
-		// next()
-		// then do something later
-		// .then(()=> { doSomethingAfter() })
-	},
-
-	initialize( router ){
-        // Optional routes definition.
-        // Redirecting to a default route
-		router.get('', ()=> router.navigate('/') )
-	},
-
-	routes :{
-        //Define where loader should get all assets
-		'/:page?' :( {page = 'home'} ) => ({
-			templateUrl :`front/apps/${page}/index.htm`,
-			css :`public/${page}/index.css`,
-			js  :`public/${page}/index.js`
-		})
-	}
-})
+jails
+    .use(spa({ cacheBust :false }))
+    .start() 
 ```
 
-You can also pull internal resources used in spa module, like Router and assetsLoader:
+More about options references please check out [Pjax](https://github.com/MoOx/pjax).
+
+---
+
+## Page Transition
+In addition to those pjax options, you can also specify a `transition` before the `outlet` element update.
 
 ```js
-import jails from 'jails-js'
-import {Router, loader} from 'jails.packages/spa'
-
-console.log( Router, loader )
+jails
+    .use(spa({ 
+        cacheBust :false,
+        transition(outlet, next){
+            // do something here
+            // then update content calling next()
+            next()
+        }
+    }))
+    .start() 
 ```
-
 ---
-
-#### onload ( outlet, {state} )
-This callback will be called only after resources are downloaded.
-
-#### transition( outlet, next )
-Like a middleware, used to do actions before and after content is changed.
-
-#### callback({router, req, res, next, outlet})
-A callback called on every page change
----
-
-##### `outlet`
-Should be a `htmlElement` with `[data-outlet]` on it.
-
-##### `state` : enter | end | load
