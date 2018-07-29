@@ -37,6 +37,7 @@ jails
 ```
 
 More about options references please check out [Pjax](https://github.com/MoOx/pjax).
+The `Pjax` instance will be stored in `jails.pjax`.
 
 ---
 
