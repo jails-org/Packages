@@ -15,7 +15,10 @@ export default (config = {}) => (jails) => {
 		const fullConfig = Object.assign({}, config, extendedPjax)
 		jails.pjax = new Pjax(fullConfig)
 		jails.events.on(document, 'pjax:send', (e) => {
-			url = e.triggerElement.href
+			if(e.triggerElement)
+				url = e.triggerElement.href
+			else 
+				url = location.href
 		})
 	}
 
