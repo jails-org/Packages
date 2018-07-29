@@ -36,7 +36,8 @@ export default option => {
 				newnode = morphdom( Base.elm, soda( html, newstate ), lifecycle( newnode, status ) )
 
 				if( status.hascomponent ){
-					Base.jails.start( newnode )
+					if(!Base.jails.observer)
+						Base.jails.start( newnode )
 					if( !Base.elm.getAttribute(REACTORID) ){
 						Base.elm.setAttribute( REACTORID, id++)
 						templates[id] = newnode.outerHTML
