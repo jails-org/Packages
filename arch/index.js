@@ -20,7 +20,7 @@ export default options => {
 			model = initialmodel || model
 			const thestore = litestore( Object.assign({}, model) )
 
-			thestore.actions( actions )
+			thestore.actions( actions.call? actions(thestore) : actions )
 			thestore.subscribe( state => {
 				const newstate = Object.assign({}, state)
 				base.reactor( beforeUpdate? beforeUpdate(newstate) : newstate )
