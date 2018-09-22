@@ -7,10 +7,10 @@ export {
 }
 
 let id = 0
-
+const REACTORID = 'data-reactor-id'
 const templates = {}
 const model = {}
-const REACTORID = 'data-reactor-id'
+const SST = {}
 
 export default option => {
 
@@ -18,28 +18,28 @@ export default option => {
 
 	return Base => {
 
-		if( Base.elm == document.body ){
+		if (Base.elm == document.body) {
 			Base.reactor = state => console.warn('Reactor can`t be used on document.body')
-		}else{
+		} else {
 
-			const tid  	  = +Base.elm.getAttribute( REACTORID )
-			const html 	  = templates[ tid ]
+			const tid = +Base.elm.getAttribute(REACTORID)
+			const html = templates[tid]
 
-			let newnode   = Base.elm
-			let firstime  = true
+			let newnode = Base.elm
 
 			Base.reactor = state => {
 
-				let newstate = Object.assign({}, (firstime && model[tid])? model[tid] : state)
-				let status = { hascomponent :false }
+				if (!state) return dup(SST)
 
-				newnode = morphdom( Base.elm, soda( html, newstate ), lifecycle( newnode, status ) )
+				let newstate = Object.assign({}, SST, state)
+				let status = { hascomponent: false }
+				newnode = morphdom(newnode, soda(html, newstate), lifecycle(newnode, status))
 
-				if( status.hascomponent ){
-					if(!Base.jails.observer)
-						Base.jails.start( newnode )
-					if( !Base.elm.getAttribute(REACTORID) ){
-						Base.elm.setAttribute( REACTORID, id++)
+				if (status.hascomponent) {
+					if (!Base.jails.observer)
+						Base.jails.start(newnode)
+					if (!Base.elm.getAttribute(REACTORID)) {
+						Base.elm.setAttribute(REACTORID, id++)
 						templates[id] = newnode.outerHTML
 							.replace(/<template*.>/g, '')
 							.replace(/<\/template>/g, '')
@@ -48,26 +48,30 @@ export default option => {
 
 				status.hascomponent = false
 				model[tid] = newstate
-				firstime   = false
+				Object.assign(SST, newstate)
 			}
 		}
 
-		const lifecycle = ( root, status ) => ({
+		const lifecycle = (root, status) => ({
 
-			onBeforeElChildrenUpdated( node, tonode ){
+			getNodeKey(node) {
+				return +((node.getAttribute && node.getAttribute(REACTORID)) || node.id)
+			},
+
+			onBeforeElChildrenUpdated(node, tonode) {
 				return !(node.getAttribute && node.getAttribute('data-static'))
 			},
 
-			onNodeAdded( node ) {
-				if( node.getAttribute && node.getAttribute('data-component') && !node.j ){
+			onNodeAdded(node) {
+				if (node.getAttribute && node.getAttribute('data-component') && !node.j) {
 					status.hascomponent = true
 				}
 			},
 
-			onBeforeNodeDiscarded( node ){
-				if( node.getAttribute && node.getAttribute('data-component') && node.j ){
-					const newid = +node.getAttribute( REACTORID )
-					Base.jails.destroy( node )
+			onBeforeNodeDiscarded(node) {
+				if (node.getAttribute && node.getAttribute('data-component') && node.j) {
+					const newid = +node.getAttribute(REACTORID)
+					Base.jails.destroy(node)
 					delete templates[newid]
 				}
 			}
@@ -76,18 +80,22 @@ export default option => {
 		Base.reactor.templates = templates
 		Base.reactor.model = model
 		Base.reactor.REACTORID = REACTORID
+		Base.reactor.SST = SST
 
 		return Base
-
 	}
 }
 
-function setTemplate( context = document.body ){
+function dup(object) {
+	return JSON.parse(JSON.stringify(object))
+}
+
+function setTemplate(context = document.body) {
 
 	const virtual = document.createElement('div')
 	const elements = Array.prototype.slice.call(context.querySelectorAll('[data-component]'))
 
-	elements.forEach( (elm, index) => elm.setAttribute( REACTORID, id++ ) )
+	elements.forEach((elm, index) => elm.setAttribute(REACTORID, id++))
 
 	virtual.innerHTML = context.innerHTML
 		.replace(/<template*.>/g, '')
@@ -96,11 +104,11 @@ function setTemplate( context = document.body ){
 	const virtualComponents = Array.prototype.slice.call(virtual.querySelectorAll('[data-component]'))
 	const newItems = virtualComponents.filter(item => !item.getAttribute(REACTORID))
 
-	newItems.forEach( elm => elm.setAttribute( REACTORID, id++ ))
+	newItems.forEach(elm => elm.setAttribute(REACTORID, id++))
 
-	virtualComponents.forEach( elm => {
-		const ID = +elm.getAttribute( REACTORID )
-		if( !templates[ ID ] )
-			templates[ ID ] = elm.outerHTML
+	virtualComponents.forEach(elm => {
+		const ID = +elm.getAttribute(REACTORID)
+		if (!templates[ID])
+			templates[ID] = elm.outerHTML
 	})
 }

@@ -11,31 +11,28 @@ export default options => {
 
 	return Base => {
 
-		const base = R( Base )
-		const id = +base.elm.getAttribute( Base.reactor.REACTORID )
-		const initialmodel = base.reactor.model[id]
+		const base = R(Base)
 
-		base.arch = ( {model, actions, store, beforeUpdate} ) => {
+		base.arch = ({ model, actions = {}, store, beforeUpdate }) => {
 
-			model = initialmodel || model
-			const thestore = litestore( Object.assign({}, model) )
+			const thestore = litestore(Object.assign({}, model))
 
-			thestore.actions( actions.call? actions(thestore) : actions )
-			thestore.subscribe( state => {
+			thestore.actions(actions.call ? actions(thestore) : actions)
+			thestore.subscribe(state => {
 				const newstate = Object.assign({}, state)
-				base.reactor( beforeUpdate? beforeUpdate(newstate) : newstate )
+				base.reactor(beforeUpdate ? beforeUpdate(newstate) : newstate)
 			})
 
-			thestore.set( state => {
-				for(let key in model)
-					if( !(key in state) ) state[key] = model[key]
+			thestore.set(state => {
+				for (let key in model)
+					if (!(key in state)) state[key] = model[key]
 			})
 
-			if( store ){
-				const {dispatch} = thestore
-				thestore.dispatch = ( action, payload ) => {
-					dispatch( action, payload )
-					store.dispatch( action, payload )
+			if (store) {
+				const { dispatch } = thestore
+				thestore.dispatch = (action, payload) => {
+					dispatch(action, payload)
+					store.dispatch(action, payload)
 				}
 			}
 
