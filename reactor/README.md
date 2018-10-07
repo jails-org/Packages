@@ -68,3 +68,5 @@ do not update that dom tree, so it will be static. Pretty handy if you want to m
 	</div>
 </div>
 ```
+
+Calling `reactor()` without any parameters will return the whole Single Source of Truth tree being used to update the entire application.
