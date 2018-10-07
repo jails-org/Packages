@@ -12,7 +12,7 @@ const templates = {}
 const model = {}
 const SST = {}
 
-export default option => {
+export default (option) => {
 
 	setTemplate()
 
@@ -24,14 +24,15 @@ export default option => {
 
 			const tid = +Base.elm.getAttribute(REACTORID)
 			const html = templates[tid]
-
 			let newnode = Base.elm
 
 			Base.reactor = state => {
 
 				if (!state) return dup(SST)
 
-				let newstate = Object.assign({}, SST, state)
+				Object.assign(SST, state)
+
+				let newstate = Object.assign({}, dup(SST), state)
 				let status = { hascomponent: false }
 				newnode = morphdom(newnode, soda(html, newstate), lifecycle(newnode, status))
 
@@ -48,7 +49,6 @@ export default option => {
 
 				status.hascomponent = false
 				model[tid] = newstate
-				Object.assign(SST, newstate)
 			}
 		}
 
@@ -59,7 +59,11 @@ export default option => {
 			},
 
 			onBeforeElChildrenUpdated(node, tonode) {
-				return !(node.getAttribute && node.getAttribute('data-static'))
+				if (node.getAttribute) {
+					if (node.getAttribute('data-static') && node != Base.elm) {
+						return false
+					}
+				}
 			},
 
 			onNodeAdded(node) {
@@ -70,9 +74,7 @@ export default option => {
 
 			onBeforeNodeDiscarded(node) {
 				if (node.getAttribute && node.getAttribute('data-component') && node.j) {
-					const newid = +node.getAttribute(REACTORID)
 					Base.jails.destroy(node)
-					delete templates[newid]
 				}
 			}
 		})
