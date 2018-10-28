@@ -55,7 +55,8 @@ export default (option) => {
 		const lifecycle = (root, status) => ({
 
 			getNodeKey(node) {
-				return +((node.getAttribute && node.getAttribute(REACTORID)) || node.id)
+				const id = node.getAttribute && node.getAttribute(REACTORID)
+				if ( id ) return +id
 			},
 
 			onBeforeElChildrenUpdated(node, tonode) {
