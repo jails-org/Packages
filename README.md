@@ -12,7 +12,8 @@
 
 ## General Packages
 
-### Async
+### Async & Streams 
+- [callbags](https://github.com/staltz/callbag-basics)
 - [xstream](https://github.com/staltz/xstream)
 - [RxJs](https://github.com/ReactiveX/rxjs)
 - [asynquence](https://github.com/getify/asynquence)
@@ -24,9 +25,6 @@
 ### Authentication & Authorization
 - [hellojs](http://adodson.com/hello.js)
 - [casl](https://github.com/stalniy/casl)
-
-### Data Manipulation
-- [walker](https://github.com/Javiani/Walker)
 
 ### Loaders
 - [scriptjs](https://github.com/ded/script.js)
@@ -53,6 +51,3 @@
 
 ### Date
 - [moment.js](https://github.com/moment/moment)
-
-### Lazyloading
-- [lazyload](lazyload)

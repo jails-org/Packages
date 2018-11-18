@@ -2,7 +2,8 @@ export default ( data = {} ) => {
 
 	const publisher = pubsub()
 	const UPDATE = '__update__'
-	const state = JSON.parse(JSON.stringify(data))
+	
+	let state = JSON.parse(JSON.stringify(data))
 
 	return {
 
@@ -40,24 +41,25 @@ export default ( data = {} ) => {
 	}
 }
 
-const pubsub = () => {
+const pubsub = (topics, _async) => {
 
-	let topics = {}
+	topics = {}
+	_async = {}
 
 	return {
-
-		publish( name, params ){
-			if( name in topics )
-				topics[name].map( topic => topic( params ) )
+		publish(name, params) {
+			if (!(name in topics))
+				_async[name] = params
+			else
+				topics[name].forEach((topic) => topic(params))
 		},
-
-		subscribe( name, method ){
-
+		subscribe(name, method) {
 			topics[name] = topics[name] || []
 			topics[name].push( method )
-
+			if (name in _async)
+				topics[name].forEach((topic) => topic(_async[name]))
 			return () => {
-				topics[name] = topics[name].filter( topic => topic == method )
+				topics[name] = topics[name].filter((topic) =>  topic == method)
 			}
 		}
 	}
