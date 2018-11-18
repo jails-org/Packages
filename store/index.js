@@ -1,7 +1,8 @@
-export default ( state = {} ) => {
+export default ( data = {} ) => {
 
 	const publisher = pubsub()
 	const UPDATE = '__update__'
+	const state = JSON.parse(JSON.stringify(data))
 
 	return {
 
