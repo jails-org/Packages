@@ -9,8 +9,6 @@
 - [router](router)
 - [LinkQ](linkq)
 - [SPA](spa)
-- [jQuery.adapter](jquery.adapter)
-
 
 ## General Packages
 
