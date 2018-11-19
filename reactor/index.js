@@ -12,6 +12,8 @@ const templates = {}
 const model = {}
 const SST = {}
 
+soda.prefix('v-')
+
 export default (option) => {
 
 	setTemplate()
