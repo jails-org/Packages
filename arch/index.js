@@ -1,6 +1,8 @@
 import litestore from '../store'
 import reactor, {soda} from '../reactor'
 
+soda.prefix('v-')
+
 export {
 	soda
 }
