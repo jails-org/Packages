@@ -24,7 +24,7 @@ export default (config = {}) => (jails) => {
 
 	const extendedPjax = {
 
-		selectors: ['head title', 'head meta', '[data-stylesheet]', '[data-script]', '[data-outlet]'],
+		selectors: ['head title', 'head meta', '[data-dynamic]' ,'[data-stylesheet]', '[data-script]', '[data-outlet]'],
 
 		switches: {
 			'[data-outlet]'(oldel, newel, options) {
