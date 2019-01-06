@@ -1,0 +1,15 @@
+{
+  "name": "jails.packages.pandora",
+  "version": "1.0.0",
+  "description": "A Simple, Agnostic and Isomorphic State Manager Container.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "store",
+    "pandora"
+  ],
+  "author": "Javiani",
+  "license": "MIT"
+}
