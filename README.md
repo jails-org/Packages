@@ -2,6 +2,7 @@
 >A Realm containing a curated list of great packages found on github plus some official packages developed for Jails.
 
 ## Jails Official Packages
+- [pandora](pandora)
 - [arch](arch)
 - [logger](logger)
 - [store](store)
@@ -35,6 +36,7 @@
 - [vanilla-ui-router](https://github.com/micromata/vanilla-ui-router)
 
 ### DOM
+- [hyperHTML](https://github.com/WebReflection/hyperHTML)
 - [morphdom](https://github.com/patrick-steele-idem/morphdom)
 - [in-view](https://github.com/camwiegert/in-view)
 
