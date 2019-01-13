@@ -35,6 +35,7 @@
 - [vanilla-ui-router](https://github.com/micromata/vanilla-ui-router)
 
 ### DOM
+- [litHtml](https://github.com/Polymer/lit-html)
 - [hyperHTML](https://github.com/WebReflection/hyperHTML)
 - [morphdom](https://github.com/patrick-steele-idem/morphdom)
 - [in-view](https://github.com/camwiegert/in-view)
