@@ -47,6 +47,7 @@
 - [art-template](https://github.com/aui/art-template)
 
 ### SPA
+- [Single Spa](https://single-spa.js.org/)
 - [Pjax](https://github.com/MoOx/pjax)
 - [TurboLinks](https://github.com/turbolinks/turbolinks)
 
