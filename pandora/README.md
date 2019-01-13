@@ -92,4 +92,5 @@ need to do some dom changes after the call, use `.then` Promise interface, as di
 - Callback is just a subscriber function that will check if `haschanged` is true before calling your function, so it is wise to register your component or application's `render` function as a callback for performance optimization.
 - The action's returned object will be **merged** with the current state, so you don't need to return the entire model in the action's functions
 
+
 Please, check out `middlewares.js` file if you're interested in creating middlewares.
