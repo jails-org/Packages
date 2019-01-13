@@ -9,7 +9,6 @@
 - [reactor](reactor)
 - [router](router)
 - [LinkQ](linkq)
-- [SPA](spa)
 
 ## General Packages
 
