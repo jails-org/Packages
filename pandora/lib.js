@@ -11,8 +11,11 @@ export default ({
     
     const calls = []
     const subscribers = []
-
     let SST = JSON.parse(JSON.stringify(model))
+
+    const nextTick = (typeof window !== 'undefined' && window.document && window.document.createElement)
+        ? (requestAnimationFrame || setTimeout)
+        : (fn) => fn()
 
     // @Setters
     const setActions = (newlist) => {
@@ -49,7 +52,7 @@ export default ({
         return new Promise(resolve => {
             calls.push({ action, payload })
             if (calls.length == 1) {
-                (requestAnimationFrame || setTimeout)(() => {
+                nextTick(() => {
                     while (calls.length)
                         _dispatch(calls[0].action, calls[0].payload, resolve)
                 })
