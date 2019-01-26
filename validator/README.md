@@ -51,7 +51,7 @@ Here's a code that generates dynamically the fields configuration object and do 
 		<label>Name:</label>
 		<input type="text" name="user" data-rules="{'required':true}" data-static="true" />
 		<template>
-			<p soda-if="errors.user.required" class="error-message">Este campo é obrigatório</p>
+			<p v-if="errors.user.required" class="error-message">Este campo é obrigatório</p>
 		</template>
 	</div>
 
@@ -60,7 +60,7 @@ Here's a code that generates dynamically the fields configuration object and do 
 		<input type="text" name="email" data-rules="{'email':true}" data-static="true" />
 			
 		<template>
-			<p soda-if="!errors.email.required && errors.email.email" class="error-message">Digite um email válido</p>		
+			<p v-if="!errors.email.required && errors.email.email" class="error-message">Digite um email válido</p>		
 		</template>
 	</div>
 </form>

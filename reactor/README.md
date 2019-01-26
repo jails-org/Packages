@@ -62,9 +62,9 @@ do not update that dom tree, so it will be static. Pretty handy if you want to m
 
 ```html
 <div data-component="my-component">
-	<h1>Hi!, <span soda-html="fullname">Guest</span></h1>
+	<h1>Hi!, <span v-html="fullname">Guest</span></h1>
 	<div data-static="true">
-		<p soda-html="name">This value will never change, no matter how many any reactor calls</p>
+		<p v-html="name">This value will never change, no matter how many any reactor calls</p>
 	</div>
 </div>
 ```
