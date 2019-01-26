@@ -1,6 +1,8 @@
 
 >A Realm containing a curated list of great packages found on github plus some official packages developed for Jails.
 
+Highly recommend to see also : https://github.com/sorrycc/awesome-javascript
+
 ## Jails Official Packages
 - [pandora](pandora)
 - [arch](arch)
