@@ -28,7 +28,7 @@ export default (option) => {
 			const html = templates[tid]
 			let newnode = Base.elm
 
-			Base.reactor = state => {
+			Base.reactor = (state) => {
 
 				if (!state) return dup(SST)
 
@@ -75,9 +75,44 @@ export default (option) => {
 				}
 			},
 
-			onBeforeNodeDiscarded(node) {
+			onNodeDiscarded(node){
 				if (node.getAttribute && node.getAttribute('data-component') && node.j) {
 					Base.jails.destroy(node)
+				}
+			},
+
+			onBeforeNodeAdded(node) {
+				if (node.getAttribute) {
+					const animation = node.getAttribute('data-animation-before-enter')
+					if (animation) {
+						const afterEnter = node.getAttribute('data-animation-enter')
+						node.classList.add(animation)
+						rAF(() => {
+							node.classList.add(afterEnter)
+							rAF(() => {
+								node.classList.remove(animation)
+								node.classList.remove(afterEnter)
+							})
+						})
+					}
+				}
+			},
+
+			onBeforeNodeDiscarded(node) {
+				if (node.getAttribute) {
+					const animation = node.getAttribute('data-animation-leave')
+					if (animation) {
+						node.classList.add(animation)
+						const remove = () => {
+							node.removeEventListener(transitionEnd, remove)
+							node.removeEventListener(animationEnd, remove)
+							node.parentNode? node.parentNode.removeChild(node) : null
+						}
+						node.addEventListener(transitionEnd, remove)
+						node.addEventListener(animationEnd, remove)
+						node.classList.add(animation)
+						return false
+					}
 				}
 			}
 		})
@@ -86,9 +121,14 @@ export default (option) => {
 		Base.reactor.model = model
 		Base.reactor.REACTORID = REACTORID
 		Base.reactor.SST = SST
+		Base.reactor.lifecycle = {}
 
 		return Base
 	}
+}
+
+function rAF(fn){
+	(requestAnimationFrame || setTimeout)(fn)
 }
 
 function dup(object) {
@@ -117,3 +157,23 @@ function setTemplate(context = document.body) {
 			templates[ID] = elm.outerHTML
 	})
 }
+
+const getPrefix = (object) => {
+	for (let key in object)
+		if (key in document.body.style)
+			return object[key]
+}
+
+const animationEnd = getPrefix({
+	animation: 'animationend',
+	OAnimation: 'oAnimationEnd',
+	MozAnimation: 'animationend',
+	WebkitAnimation: 'webkitAnimationEnd'
+})
+
+const transitionEnd = getPrefix({
+	transition: 'transitionend',
+	OTransition: 'oTransitionEnd',
+	MozTransition: 'transitionend',
+	WebkitTransition: 'webkitTransitionEnd'
+})
