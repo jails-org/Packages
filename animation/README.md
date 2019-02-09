@@ -22,7 +22,7 @@ import animation from 'jails.packages/animation'
 const elm = document.querySelector('.my-element')
 
 animation(elm, {
-	'myElm:opacity' :() => //do some stuff after opacity animation
+	'myElm@opacity' :() => //do some stuff after opacity animation
 })
 
 elm.classList.add('fade-in')
