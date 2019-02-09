@@ -2,8 +2,6 @@
 
 Diff Dom and template system for Jails.
 
-> Version : `1.0.0`
-
 > Dependencies :
 - [morphdom](https://github.com/patrick-steele-idem/morphdom) - for dom diffing
 - [sodajs](https://github.com/AlloyTeam/sodajs) -  as template system

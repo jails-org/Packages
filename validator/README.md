@@ -47,7 +47,7 @@ Here's a code that generates dynamically the fields configuration object and do 
 `index.html`
 ```html
 <form data-component="validation">
-	<div class="form-group" soda-class="errors.user ? 'error' : ''">
+	<div class="form-group" v-class="errors.user ? 'error' : ''">
 		<label>Name:</label>
 		<input type="text" name="user" data-rules="{'required':true}" data-static="true" />
 		<template>
@@ -55,7 +55,7 @@ Here's a code that generates dynamically the fields configuration object and do 
 		</template>
 	</div>
 
-	<div class="form-group" soda-class="errors.email ? 'error' : ''">
+	<div class="form-group" v-class="errors.email ? 'error' : ''">
 		<label>E-mail:</label>
 		<input type="text" name="email" data-rules="{'email':true}" data-static="true" />
 			
