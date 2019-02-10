@@ -57,8 +57,9 @@ export default (option) => {
 		const lifecycle = (root, status) => ({
 
 			getNodeKey(node) {
+				const ref = node.getAttribute && node.getAttribute('ref')
 				const id = node.getAttribute && node.getAttribute(REACTORID)
-				if ( id ) return +id
+				return ref || id 
 			},
 
 			onBeforeElChildrenUpdated(node, tonode) {
@@ -121,7 +122,6 @@ export default (option) => {
 		Base.reactor.model = model
 		Base.reactor.REACTORID = REACTORID
 		Base.reactor.SST = SST
-		Base.reactor.lifecycle = {}
 
 		return Base
 	}
