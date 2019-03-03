@@ -10,7 +10,6 @@ let id = 0
 
 const REACTORID = 'data-reactor-id'
 const templates = {}
-const model = {}
 const SST = {}
 
 soda.prefix('v-')
@@ -22,9 +21,9 @@ export default (option) => {
 	return Base => {
 
 		if (Base.elm == document.body) {
-			Base.reactor = state => console.warn('Reactor can`t be used on document.body')
+			Base.reactor = () => console.warn('Reactor can`t be used on document.body')
 		} else {
-
+			
 			const tid = +Base.elm.getAttribute(REACTORID)
 			const html = templates[tid]
 
@@ -32,11 +31,12 @@ export default (option) => {
 
 				if (!state) return dup(SST)
 
-				Object.assign(SST, state)
-
+				const namespace = Base.name.replace(/\W/, '')
+				Object.assign(SST, {[namespace]:state})
+				
 				let newstate = Object.assign({}, dup(SST), state)
 				let status = { hascomponent: false }
-
+				
 				morphdom( Base.elm, soda(html, newstate), lifecycle(status) )
 
 				if (status.hascomponent) {
@@ -51,21 +51,20 @@ export default (option) => {
 				}
 
 				status.hascomponent = false
-				model[tid] = newstate
 			}
 		}
 
 		const lifecycle = (status) => ({
 
 			getNodeKey(node) {
-				const key = node.getAttribute && node.getAttribute('v-key')
+				const key = node.getAttribute && node.getAttribute('data-key')
 				const id = node.getAttribute && node.getAttribute(REACTORID)
 				return key || id 
 			},
 
 			onBeforeElChildrenUpdated(node, tonode) {
 				if (node.getAttribute) {
-					if (node.getAttribute('v-static') && node != Base.elm) {
+					if (node.getAttribute('data-static') && node != Base.elm) {
 						return false
 					}
 				}
@@ -85,9 +84,9 @@ export default (option) => {
 
 			onBeforeNodeAdded(node) {
 				if (node.getAttribute) {
-					const animation = node.getAttribute('v-animation-before-enter')
+					const animation = node.getAttribute('data-animation-before-enter')
 					if (animation) {
-						const afterEnter = node.getAttribute('v-animation-enter')
+						const afterEnter = node.getAttribute('data-animation-enter')
 						node.classList.add(animation)
 						rAF(() => {
 							node.classList.add(afterEnter)
@@ -102,7 +101,7 @@ export default (option) => {
 
 			onBeforeNodeDiscarded(node) {
 				if (node.getAttribute) {
-					const animation = node.getAttribute('v-animation-leave')
+					const animation = node.getAttribute('data-animation-leave')
 					if (animation) {
 						node.classList.add(animation)
 						const remove = () => {
