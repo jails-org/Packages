@@ -26,12 +26,12 @@ export default (option) => {
 			
 			const tid = +Base.elm.getAttribute(REACTORID)
 			const html = templates[tid]
+			const namespace = Base.name.replace(/\W/, '')
 
 			Base.reactor = (state) => {
 
 				if (!state) return dup(SST)
 
-				const namespace = Base.name.replace(/\W/, '')
 				Object.assign(SST, {[namespace]:state})
 				
 				let newstate = Object.assign({}, dup(SST), state)
