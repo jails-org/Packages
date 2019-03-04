@@ -32,7 +32,7 @@ export default (option) => {
 
 				if (!state) return dup(SST)
 
-				Object.assign(SST, {[namespace]:state})
+				Object.assign(SST, state, {[namespace]:state})
 				
 				let newstate = Object.assign({}, dup(SST), state)
 				let status = { hascomponent: false }
