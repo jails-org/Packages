@@ -10,6 +10,7 @@ let id = 0
 
 const REACTORID = 'data-reactor-id'
 const templates = {}
+const instances = {}
 const SST = {}
 
 soda.prefix('v-')
@@ -24,20 +25,21 @@ export default (option) => {
 			Base.reactor = () => console.warn('Reactor can`t be used on document.body')
 		} else {
 			
+			let pageload = true 
 			const tid = +Base.elm.getAttribute(REACTORID)
 			const html = templates[tid]
-			const namespace = Base.name.replace(/\W/, '')
+
+			instances[tid] = Base
 
 			Base.reactor = (state) => {
 
-				if (!state) return dup(SST)
+				if( !state ) return dup(SST)
 
-				Object.assign(SST, state, {[namespace]:state})
-				
-				let newstate = Object.assign({}, dup(SST), state)
-				let status = { hascomponent: false }
-				
-				morphdom( Base.elm, soda(html, newstate), lifecycle(status) )
+				Object.assign(SST, state)
+				delete SST.parent
+				let status = { hascomponent: false, pageload }
+
+				morphdom( Base.elm, soda(html, dup(state)), lifecycle(status) )
 
 				if (status.hascomponent) {
 					if (!Base.jails.observer)
@@ -51,6 +53,7 @@ export default (option) => {
 				}
 
 				status.hascomponent = false
+				pageload = false
 			}
 		}
 
@@ -65,6 +68,11 @@ export default (option) => {
 			onBeforeElChildrenUpdated(node, tonode) {
 				if (node.getAttribute) {
 					if (node.getAttribute('data-static') && node != Base.elm) {
+						return false
+					}
+					if (node.getAttribute('data-component') && node != Base.elm && !status.pageload){
+						const ID = +node.getAttribute(REACTORID)
+						instances[ID].Msg.set( state => state.parent = SST )
 						return false
 					}
 				}
