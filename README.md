@@ -4,13 +4,12 @@
 Highly recommend to see also : https://github.com/sorrycc/awesome-javascript
 
 ## Jails Official Packages
-- [pandora](pandora)
-- [arch](arch)
+- [animation](animation)
+- [assets-loader](assets-loader)
 - [logger](logger)
-- [store](store)
-- [reactor](reactor)
+- [pandora](pandora)
 - [router](router)
-- [LinkQ](linkq)
+- [storage](storage)
 
 ## General Packages
 
