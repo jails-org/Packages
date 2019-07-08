@@ -10,7 +10,7 @@ export default ({
 }) => {
     
     const calls = []
-    const subscribers = []
+    let subscribers = []
     let SST = JSON.parse(JSON.stringify(model))
 
     const nextTick = (typeof window !== 'undefined' && window.document && window.document.createElement)
@@ -39,13 +39,25 @@ export default ({
     const subscribe = ( fnOrObject ) => {
         if( !fnOrObject ) return 
         if (fnOrObject.call) {
+            fnOrObject.ref = fnOrObject
             subscribers.push(fnOrObject)
+            fnOrObject(Object.assign({}, SST), {action:null, payload:null, haschanged:true})
         } else {
-            subscribers.push((state, options) => {
-                if (options.action in fnOrObject)
-                    fnOrObject[options.action](state, options)
+            Object.keys(fnOrObject).forEach( action => {
+                const handler = fnOrObject[action]
+                const fn = (state, options) => {
+                    if (options.action in fnOrObject)
+                        fnOrObject[options.action](state, options)
+                }
+                fn.ref = handler
+                subscribers.push(fn)
+                fn( Object.assign({}, SST), {action, payload:null, haschanged :true} )
             })
         }
+    }
+
+    const unsubscribe = (fn) => {
+        subscribers = subscribers.filter( subscriber => subscriber.ref != fn )
     }
 
     const dispatch = (action, payload) => {
@@ -83,7 +95,7 @@ export default ({
     }
     
     //@Api 
-    const api = { set, getState, dispatch, subscribe, getActions, setActions }
+    const api = { set, getState, dispatch, subscribe, unsubscribe, getActions, setActions }
 
     //@Hooks for render functions
     if( callback ){
