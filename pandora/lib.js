@@ -36,12 +36,13 @@ export default ({
         return actions
     }
 
-    const subscribe = ( fnOrObject ) => {
+    const subscribe = ( fnOrObject, {autostart = false} = {} ) => {
         if( !fnOrObject ) return 
         if (fnOrObject.call) {
             fnOrObject.ref = fnOrObject
             subscribers.push(fnOrObject)
-            fnOrObject(Object.assign({}, SST), {action:null, payload:null, haschanged:true})
+            if( autostart )
+                fnOrObject(Object.assign({}, SST), {action:null, payload:null, haschanged:true})
         } else {
             Object.keys(fnOrObject).forEach( action => {
                 const handler = fnOrObject[action]
@@ -51,7 +52,8 @@ export default ({
                 }
                 fn.ref = handler
                 subscribers.push(fn)
-                fn( Object.assign({}, SST), {action, payload:null, haschanged :true} )
+                if (autostart)
+                    fn( Object.assign({}, SST), {action, payload:null, haschanged :true} )
             })
         }
     }
