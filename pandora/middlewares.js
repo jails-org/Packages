@@ -8,7 +8,7 @@ export const log = (name) => (store) => {
 
         store.subscribe((state, { action, payload }) => {
             const newstate = JSON.parse(JSON.stringify(state))
-            console.groupCollapsed(`${name} / ACTION => ${action}`)
+            console.groupCollapsed(`${name} / ACTION => ${action || 'SET'}`)
             console.log('+ payload', payload)
             console.log('+ state', newstate)
             console.groupEnd()
