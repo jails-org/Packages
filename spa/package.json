@@ -1,7 +1,7 @@
 {
-  "name": "jails.packages.spa",
+  "name": "jails.packages.router",
   "version": "1.0.0",
-  "description": "Single Page Application adapter",
+  "description": "The Grapnel incredible Router",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,6 +14,6 @@
   "author": "Javiani",
   "license": "MIT",
   "dependencies": {
-    "grapnel": "0.6.4"
+    "single-spa": "^4.3.5"
   }
 }
