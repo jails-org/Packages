@@ -49,6 +49,7 @@ Highly recommend to see also : https://github.com/sorrycc/awesome-javascript
 - [art-template](https://github.com/aui/art-template)
 
 ### SPA
+- [Swup](https://github.com/swup/swup)
 - [Single Spa](https://single-spa.js.org/)
 - [Pjax](https://github.com/MoOx/pjax)
 - [TurboLinks](https://github.com/turbolinks/turbolinks)
