@@ -24,7 +24,7 @@ const renderPage = (page, transition, bootstrap) => (template) => ({
     bootstrap: () => Promise.resolve(),
     unmount: () => Promise.resolve(),
     mount: () => {
-
+        template = template.default? template.default : template
         const outlet = document.querySelector('[data-outlet]')
 
         if (firstload) {
