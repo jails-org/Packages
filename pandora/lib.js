@@ -95,9 +95,19 @@ export default ({
             resolve(SST, params)
         }
     }
+
+    const when = (action) => {
+        return new Promise((resolve) => {
+            const handler = (state, { payload }) => {
+                resolve(Object.assign({}, state, payload))
+                unsubscribe(handler)
+            }
+            subscribe({ [action]: handler })
+        })
+    }
     
     //@Api 
-    const api = { set, getState, dispatch, subscribe, unsubscribe, getActions, setActions }
+    const api = { set, when, getState, dispatch, subscribe, unsubscribe, getActions, setActions }
 
     //@Hooks for render functions
     if( callback ){

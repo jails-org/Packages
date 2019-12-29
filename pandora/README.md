@@ -71,6 +71,8 @@ store.getActions() // Return all actions object registered
 store.setActions({ ... }) // Replaces all actions with a new set
 store.getState() // Return the current state of the store
 
+store.when( String ) // When can me used together with async/await in order to get data { ...state, ...payload } withou having to subscribe to store. eg : const {products} = store.when('FETCH')
+
 // Subscribing to a expecific action
 store.subscribe({ 
     ADD_TO_LIST : (state, {payload, action, haschanged}) => {
