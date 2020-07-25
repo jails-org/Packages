@@ -1,0 +1,16 @@
+{
+  "name": "jails.packages.validation",
+  "version": "1.0.0",
+  "description": "Validate data against a set of rules",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "validation",
+    "jails-js",
+    "javascript"
+  ],
+  "author": "Javiani",
+  "license": "MIT"
+}

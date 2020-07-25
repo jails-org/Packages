@@ -10,6 +10,8 @@ Highly recommend to see also : https://github.com/sorrycc/awesome-javascript
 - [pandora](pandora)
 - [router](router)
 - [storage](storage)
+- [validator](validator)
+- [form](form)
 
 ## General Packages
 
