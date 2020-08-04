@@ -3,7 +3,7 @@ import validator from '../validator'
 const INPUT = 'input[data-rules]:not([type="checkbox"]):not([type="radio"])'
 const SELECTABLE = 'input[data-rules][type="checkbox"],input[data-rules][type="radio"]'
 
-export default function form ({ main, elm:form, emit, msg, injection }) {
+export default function form ({ main, elm:form, emit, msg, injection, update }) {
 	
 	const { validators } = injection
 	
@@ -96,11 +96,20 @@ export default function form ({ main, elm:form, emit, msg, injection }) {
 				}
 			})
 	}
+	
+	/**
+	 * @function update
+	 * @description Updating form with parent states
+	 */
+	update( state => {
+		msg.set( s => s.data = state )
+	})
 }
 
 export const model = {
 	errors: {},
-	valid: false
+	valid: false,
+	data : {}
 }
 
 /**
