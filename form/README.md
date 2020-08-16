@@ -45,3 +45,4 @@ Configure your markup and fields setting up rules matching with desired validato
 
 - `errors` : Containing a object with `input.name` and the rule that is failing as its value.
 - `valid`  : Boolean that's true when form is valid and false when it's not, usefull for actions like disabling buttons when form is invalid.
+- `data`   : Data containing state from parent components.
