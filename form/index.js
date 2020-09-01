@@ -101,8 +101,15 @@ export default function form ({ main, elm:form, emit, msg, injection, update }) 
 	 * @function update
 	 * @description Updating form with parent states
 	 */
-	update( state => {
-		msg.set( s => s.data = state )
+	update( (state) => {
+		
+		const newdata = Object.assign({}, state)
+
+		delete newdata.data 
+		delete newdata.errors 
+		delete newdata.valid
+
+		msg.set( s => s.data = newdata )
 	})
 }
 
