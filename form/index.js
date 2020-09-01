@@ -28,7 +28,7 @@ export default function form ({ main, elm:form, emit, msg, injection, update }) 
 		const { data } = getParams(form)
 
 		validator({ [name]: data[name] }, validators)
-			.then(_ => msg.set(s => s.errors[name] = undefined))
+			.then(_ => msg.set(s => delete s.errors[name] ))
 			.catch(_ => _)
 			.finally(checkValid)
 	}
