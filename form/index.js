@@ -1,7 +1,7 @@
 import validator from '../validator'
 
 const INPUT = 'input[data-rules]:not([type="checkbox"]):not([type="radio"])'
-const SELECTABLE = 'input[data-rules][type="checkbox"],input[data-rules][type="radio"]'
+const SELECTABLE = 'input[data-rules][type="checkbox"],input[data-rules][type="radio"],select[data-rules]'
 
 export default function form ({ main, elm:form, emit, msg, injection, update }) {
 	
@@ -12,7 +12,7 @@ export default function form ({ main, elm:form, emit, msg, injection, update }) 
 	])
 
 	const events = ({ on }) => {
-		on('keyup', INPUT, onchange)
+		on('keyup', INPUT, debounce(onchange, 250))
 		on('blur', INPUT, onblur)
 		on('change', SELECTABLE, onblur)
 		on('submit', onsubmit)
@@ -153,4 +153,15 @@ const errorsList = (errors) => {
 		newerrors[name] = Object.keys(errors[name])[0]
 		return newerrors
 	}, {})
+}
+
+const debounce = (func, delay) => {
+	let inDebounce
+
+	return function () {
+		const context = this
+		const args = arguments
+		clearTimeout(inDebounce)
+		inDebounce = setTimeout(() => func.apply(context, args), delay)
+	}
 }
