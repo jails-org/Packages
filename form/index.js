@@ -8,7 +8,8 @@ export default function form ({ main, elm:form, emit, msg, injection, update }) 
 	const { validators } = injection
 	
 	main( _ => [
-		events
+		events,
+		exposing
 	])
 
 	const events = ({ on }) => {
@@ -16,6 +17,15 @@ export default function form ({ main, elm:form, emit, msg, injection, update }) 
 		on('blur', INPUT, onblur)
 		on('change', SELECTABLE, onblur)
 		on('submit', onsubmit)
+		on(':validate', validate)
+	}
+
+	const exposing = ({ expose }) => {
+		expose({ validate })	
+	}
+
+	const validate = () => {
+		checkValid()
 	}
 
 	/**
