@@ -1,2 +1,7 @@
-export * as form from './form'
-export * as formField from './field'
+import * as form from './form'
+import * as formField from './field'
+
+export {
+    form,
+    formField
+}

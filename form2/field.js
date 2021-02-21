@@ -1,4 +1,4 @@
-import validator from 'jails.packages/validator'
+import validator from '../validator'
 import { getRules, formatError, debounce } from './utils'
 
 const INPUT = 'input[data-rules]:not([type="checkbox"]):not([type="radio"])'
@@ -103,8 +103,7 @@ export const view = (state) => {
 	const touched = state.touched? 'touched' : ''
 	const error   = state.error? 'error' : ''
 	const focus   = state.focus? 'focus' : ''
-	return {
-		...state,
-		cssClass : `${touched} ${error} ${focus}`.trim()
-	}
+	return Object.assign({}, state, {
+		fieldClass : `${touched} ${error} ${focus}`.trim()
+	})
 }
