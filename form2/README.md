@@ -74,3 +74,4 @@ The `form-field` component will fire 1 event:
 - `focus` : Boolean, true when input element is on focus and false otherwise.
 - `data` : Data containing state from parent components.
 - `fieldClass` : Default classes for assigning `touched`, `focus`, `error` states.
+- `value` : The value of the field if you wanna use it as a state.

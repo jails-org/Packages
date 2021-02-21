@@ -29,15 +29,19 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 	 * @param {*} event
 	 */
 	const onchange = (event) => {
-		const { name } = event.target
+		const { name, value } = event.target
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
 					s.isValid = Boolean(s.touched)
+					s.value = value
 				})
 			})
-			.catch( _ => msg.set( s => s.isValid = false ))
+			.catch( _ => msg.set( s => {
+				s.isValid = false 
+				s.value = value
+			}))
 			.finally( emitchange )
 	}
 
@@ -46,13 +50,14 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 	 * @param {*} event
 	 */
 	const onblur = (event) => {
-		const { name } = event.target
+		const { name, value } = event.target
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
 					s.isValid = Boolean(s.touched)
 					s.focus = false
+					s.value = value
 				})
 			})
 			.catch(errors => {
@@ -60,6 +65,7 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 					s.error = formatError(errors[name])
 					s.isValid = false
 					s.focus = false
+					s.value = value
 				})
 			})
 			.finally( emitchange )
