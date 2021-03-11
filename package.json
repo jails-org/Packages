@@ -1,6 +1,6 @@
 {
   "name": "jails.packages",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Index of all Jails official Packages",
   "main": "",
   "scripts": {
