@@ -91,9 +91,7 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 	}
 
 	update( props => {
-		if( props.data ) {
-			msg.set( s => s.data = props.data )
-		}
+		msg.set( s => s.data = props.data )
 	})
 }
 

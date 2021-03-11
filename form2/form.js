@@ -53,10 +53,8 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 	 * @function update
 	 * @description Updating form with parent states
 	 */
-	update( (state) => {
-		if( state.data ) {
-			msg.set( s => s.data = state.data )
-		}
+	update( (props) => {
+		msg.set( s => s.data = props.data )
 	})
 }
 

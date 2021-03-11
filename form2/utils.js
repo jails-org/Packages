@@ -9,16 +9,10 @@ export const getRules = (el) => {
 	return { value, rules }
 }
 
-/**
- * @function errorList
- * @description Transforms errors map into a list
- * @param {Object} errors
- */
 export const formatError = (error) => {
-	return Object.keys(error).reduce( (acc, item) => {
-		acc[item] = true
-		return acc
-	}, {})
+	const errors = Object.keys(error)
+	const name = errors[0]
+	return { [name]: true }
 }
 
 export const debounce = (func, delay) => {
