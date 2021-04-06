@@ -30,6 +30,7 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 		let isFormValid = true
 
 		fields('map', ({ isValid }) => {
+			
 			if( !isValid ) {
 				isFormValid = false
 			}

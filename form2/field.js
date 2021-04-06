@@ -14,7 +14,7 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 	])
 
 	const events = ({ on }) => {
-		on('keyup', INPUT, debounce(onchange, 250))
+		on('input', INPUT, debounce(onchange, 250))
 		on('blur', INPUT, onblur)
 		on('change', SELECTABLE, onblur)
 		on('focus', `${INPUT}, ${SELECTABLE}`, onfocus)
@@ -34,7 +34,7 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
-					s.isValid = Boolean(s.touched)
+					s.isValid = Boolean(value)
 					s.value = value
 				})
 			})
@@ -55,7 +55,7 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
-					s.isValid = Boolean(s.touched)
+					s.isValid = Boolean(value)
 					s.focus = false
 					s.value = value
 				})
@@ -86,12 +86,16 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 		})
 	}
 
-	const map = (fn) => {
+	const map = (fn) => { 
 		fn( msg.getState() )
 	}
 
 	update( props => {
-		msg.set( s => s.data = props.data )
+		const field = elm.querySelector('input,select,textarea')
+		msg.set( s => { 
+			s.data = props.data 
+			s.value = s.value == undefined? (field.getAttribute('value') || s.value) : s.value
+		})
 	})
 }
 
@@ -100,6 +104,7 @@ export const model = {
 	focus  : false,
 	error  : null,
 	isValid: false,
+	value  : undefined,
 	data   : {}
 }
 
