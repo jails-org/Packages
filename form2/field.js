@@ -4,7 +4,7 @@ import { getRules, formatError, debounce } from './utils'
 const INPUT = 'input[data-rules]:not([type="checkbox"]):not([type="radio"])'
 const SELECTABLE = 'input[data-rules][type="checkbox"],input[data-rules][type="radio"],select[data-rules]'
 
-export default function formField ({ main, elm, msg, injection, emit, update }) {
+export default function formField ({ main, elm, msg, injection, emit, update, trigger }) {
 
 	const { validators } = injection
 
@@ -51,13 +51,14 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 	 */
 	const onblur = (event) => {
 		const { name, value } = event.target
+		const isCheckbox = event.target.type == 'checkbox'
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
 					s.isValid = Boolean(value)
 					s.focus = false
-					s.value = value
+					s.value = isCheckbox? (event.target.checked? value: '') : value
 				})
 			})
 			.catch(errors => {
@@ -65,7 +66,7 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 					s.error = formatError(errors[name])
 					s.isValid = false
 					s.focus = false
-					s.value = value
+					s.value = isCheckbox? (event.target.checked? value: '') : value
 				})
 			})
 			.finally( emitchange )
@@ -94,7 +95,14 @@ export default function formField ({ main, elm, msg, injection, emit, update }) 
 		const field = elm.querySelector('input,select,textarea')
 		msg.set( s => { 
 			s.data = props.data 
-			s.value = s.value == undefined? (field.getAttribute('value') || s.value) : s.value
+			s.value = !s.touched? field.dataset.initialValue: s.value
+			if( s.value && !s.touched ) {
+				setTimeout(_ => {
+					trigger('input', `[name=${field.name}]`)
+					trigger('change', `[name=${field.name}]`)
+				}, 150)
+				s.touched = true 
+			}
 		})
 	})
 }
