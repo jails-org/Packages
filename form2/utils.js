@@ -26,10 +26,20 @@ export const debounce = (func, delay) => {
 }
 
 export const getFormData = (form) => {
-	const formData = new FormData(form)
-	const acc = {}
-	for(let item of formData.entries()) {
-		acc[item[0]] = item[1]
-	}
-	return acc
+
+	const data = Array.from(form.elements)
+		.reduce((acc, el) => {
+			if (el.name) {
+				const therules = (new Function(`return ${el.dataset.rules}`))()
+				const rules = therules ? therules : null
+				const isCheckbox = (el.type && (el.type == 'checkbox'))
+				const value = isCheckbox
+					? el.checked ? el.value : ''
+					: el.form[el.name].value
+				acc[el.name] = value
+			}
+			return acc
+		}, {})
+
+	return data
 }
