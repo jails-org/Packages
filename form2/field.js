@@ -93,14 +93,15 @@ export default function formField ({ main, elm, msg, injection, emit, update, tr
 
 	update( props => {
 		const field = elm.querySelector('input,select,textarea')
-		msg.set( s => { 
+		msg.set( s => {
 			s.data = props.data 
 			s.value = !s.touched? field.dataset.initialValue: s.value
 			if( s.value && !s.touched ) {
 				setTimeout(_ => {
 					trigger('input', `[name=${field.name}]`)
 					trigger('change', `[name=${field.name}]`)
-				}, 150)
+					s.value = field.value
+				})
 				s.touched = true 
 			}
 		})
@@ -111,7 +112,7 @@ export const model = {
 	touched: false,
 	focus  : false,
 	error  : null,
-	isValid: false,
+	isValid: true,
 	value  : undefined,
 	data   : {}
 }
