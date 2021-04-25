@@ -2,11 +2,10 @@ import { getFormData } from './utils'
 
 export default function form ({ main, get, elm, emit, update, msg }) {
 
-	const fields = get('form-field')
+	const field = get('form-field')
 
 	main( _ => [
 		events,
-		initialState,
 		exposing
 	])
 
@@ -15,23 +14,20 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 		on('submit', onsubmit)
 	}
 
-	const initialState = () => {
-		if( 'isvalid' in elm.dataset ) {
-			msg.set( s => s.isValid = Boolean(elm.dataset.isvalid) )
-		}
+	const exposing = ({ expose }) => {
+		expose({ validate, setFields })
 	}
 
-	const exposing = ({ expose }) => {
-		expose({ validate })
+	const setFields = ( fields ) => {
+		for( const name in fields )
+			field('set', name, fields[name], fields)
 	}
 
 	const validate = () => {
-
 		let isFormValid = true
 
-		fields('map', ({ isValid }) => {
-			
-			if( !isValid ) {
+		field('map', ({ elm, state }) => {
+			if( elm.querySelector('[data-rules]') && !state.isValid ) {
 				isFormValid = false
 			}
 		})
@@ -39,7 +35,7 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 		if( isFormValid != msg.getState().isValid ){
 			msg.set( s => s.isValid = isFormValid )
 			emit(`form:${isFormValid? 'valid': 'invalid'}`, getFormData(elm))
-		}
+		}		
 	}
 
 	const onsubmit = (e) => {

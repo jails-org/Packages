@@ -1,46 +1,77 @@
 import validator from '../validator'
 import { getRules, formatError, debounce } from './utils'
+import { INPUT, VALIDATE_INPUT, SELECTABLE, VALIDATE_SELECTABLE } from './constants'
 
-const INPUT = 'input[data-rules]:not([type="checkbox"]):not([type="radio"])'
-const SELECTABLE = 'input[data-rules][type="checkbox"],input[data-rules][type="radio"],select[data-rules]'
-
-export default function formField ({ main, elm, msg, injection, emit, update, trigger }) {
-
+export default function formField ({ main, elm, msg, injection, emit, trigger }) {
+	
 	const { validators } = injection
 
 	main( _ => [
 		events,
-		exposing
+		exposing,
+		validate
 	])
 
 	const events = ({ on }) => {
-		on('input', INPUT, debounce(onchange, 250))
+		on('input', VALIDATE_INPUT, debounce(oninput, 250))
+		on('change', VALIDATE_SELECTABLE, oninput)
 		on('blur', INPUT, onblur)
-		on('change', SELECTABLE, onblur)
 		on('focus', `${INPUT}, ${SELECTABLE}`, onfocus)
 	}
 
 	const exposing = ({ expose }) => {
-		expose({ map })
+		expose({ map, set })
+	}
+
+	const validate = () => {
+		const input = elm.querySelector('[data-rules]')
+		if( input ) {
+			validator({ [input.name]: getRules(input) }, validators)
+				.catch( _ => msg.set(s =>  s.isValid = false ) )
+				.finally( emitchange )
+		}
+	}
+
+	const set = (name, value, data = {}) => {
+		const input = elm.querySelector(`[name=${name}]`)
+		if( input ) {
+			msg.set( s => { 
+				s[name] = value
+				s.data = data
+				s.touched = true
+			})
+			trigger('input', `[name=${name}]`)
+			trigger('change', `[name=${name}]`)
+		}			
 	}
 
 	/**
-	 * @function change
+	 * @function oninput
 	 * @param {*} event
 	 */
-	const onchange = (event) => {
+	 const oninput = (event) => {
 		const { name, value } = event.target
+		const isCheckbox = event.target.type == 'checkbox'
+
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
-					s.isValid = Boolean(value)
-					s.value = value
+					s.isValid = true 
+					if( isCheckbox ) {
+						s[name] = event.target.checked? value : ''
+					}else {
+						s[name] = value
+					}					
 				})
 			})
 			.catch( _ => msg.set( s => {
 				s.isValid = false 
-				s.value = value
+				if( isCheckbox ) {
+					s[name] = event.target.checked? value : ''
+				}else {
+					s[name] = value
+				}	
 			}))
 			.finally( emitchange )
 	}
@@ -49,16 +80,14 @@ export default function formField ({ main, elm, msg, injection, emit, update, tr
 	 * @function blur
 	 * @param {*} event
 	 */
-	const onblur = (event) => {
-		const { name, value } = event.target
-		const isCheckbox = event.target.type == 'checkbox'
+	 const onblur = (event) => {
+		const { name } = event.target
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
-					s.isValid = Boolean(value)
+					s.isValid = true
 					s.focus = false
-					s.value = isCheckbox? (event.target.checked? value: '') : value
 				})
 			})
 			.catch(errors => {
@@ -66,7 +95,6 @@ export default function formField ({ main, elm, msg, injection, emit, update, tr
 					s.error = formatError(errors[name])
 					s.isValid = false
 					s.focus = false
-					s.value = isCheckbox? (event.target.checked? value: '') : value
 				})
 			})
 			.finally( emitchange )
@@ -88,24 +116,8 @@ export default function formField ({ main, elm, msg, injection, emit, update, tr
 	}
 
 	const map = (fn) => { 
-		fn( msg.getState() )
+		fn({ elm, state: msg.getState() })
 	}
-
-	update( props => {
-		const field = elm.querySelector('input,select,textarea')
-		msg.set( s => {
-			s.data = props.data 
-			s.value = !s.touched? field.dataset.initialValue: s.value
-			if( s.value && !s.touched ) {
-				setTimeout(_ => {
-					trigger('input', `[name=${field.name}]`)
-					trigger('change', `[name=${field.name}]`)
-					s.value = field.value
-				})
-				s.touched = true 
-			}
-		})
-	})
 }
 
 export const model = {
@@ -113,7 +125,6 @@ export const model = {
 	focus  : false,
 	error  : null,
 	isValid: true,
-	value  : undefined,
 	data   : {}
 }
 
