@@ -75,3 +75,46 @@ The `form-field` component will fire 1 event:
 - `data` : Data containing state from parent components.
 - `fieldClass` : Default classes for assigning `touched`, `focus`, `error` states.
 - `value` : The value of the field if you wanna use it as a state.
+
+## Setting dynamic values
+
+You can fill all data in your form dynamically using the exposed function called `setFields` on Form component.
+
+```js
+import { getSomething } from "data/services/some-service";
+
+export default function myForm({ main, get }) {
+  main((_) => [fetchData]);
+
+  const fetchData = async () => {
+    const form = get("form");
+    const data = await getSomething();
+    form("setFields", {
+      username: "My user",
+      email: "myuser@email.com",
+      gender: "female",
+    });
+  };
+}
+```
+
+```html
+<form data-component="myForm form">
+  <input type="text" name="username" v-value="{{value}}" />
+  <input type="text" name="email" v-value="{{value}}" />
+  <input
+    type="radio"
+    name="gender"
+    v-value="male"
+    v-checked="{{value == 'male'}}"
+  />
+  <input
+    type="radio"
+    name="gender"
+    v-value="female"
+    v-checked="{{value == 'female'}}"
+  />
+</form>
+```
+
+The `value` variable will change after as user changes the input/select element.
