@@ -21,6 +21,7 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 	const setFields = ( fields ) => {
 		for( const name in fields )
 			field('set', name, fields[name], fields)
+		msg.set( s => s.data = Object.assign({}, s.data, fields) )
 	}
 
 	const validate = () => {

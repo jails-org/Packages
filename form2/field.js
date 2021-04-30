@@ -13,7 +13,7 @@ export default function formField ({ main, elm, msg, injection, emit, trigger })
 	])
 
 	const events = ({ on }) => {
-		on('input', VALIDATE_INPUT, debounce(oninput, 250))
+		on('input', VALIDATE_INPUT, debounce(oninput, 100))
 		on('change', VALIDATE_SELECTABLE, oninput)
 		on('blur', INPUT, onblur)
 		on('focus', `${INPUT}, ${SELECTABLE}`, onfocus)
@@ -36,7 +36,7 @@ export default function formField ({ main, elm, msg, injection, emit, trigger })
 		const input = elm.querySelector(`[name=${name}]`)
 		if( input ) {
 			msg.set( s => { 
-				s[name] = value
+				s.value = value
 				s.data = data
 				s.touched = true
 			})
@@ -59,18 +59,18 @@ export default function formField ({ main, elm, msg, injection, emit, trigger })
 					s.error = null
 					s.isValid = true 
 					if( isCheckbox ) {
-						s[name] = event.target.checked? value : ''
+						s.value = event.target.checked? value : ''
 					}else {
-						s[name] = value
+						s.value = value
 					}					
 				})
 			})
 			.catch( _ => msg.set( s => {
 				s.isValid = false 
 				if( isCheckbox ) {
-					s[name] = event.target.checked? value : ''
+					s.value = event.target.checked? value : ''
 				}else {
-					s[name] = value
+					s.value = value
 				}	
 			}))
 			.finally( emitchange )
@@ -125,7 +125,8 @@ export const model = {
 	focus  : false,
 	error  : null,
 	isValid: true,
-	data   : {}
+	data   : {},
+	value  : null
 }
 
 export const view = (state) => {
