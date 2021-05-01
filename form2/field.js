@@ -15,7 +15,7 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 	const events = ({ on }) => {
 		on('input', VALIDATE_INPUT, debounce(oninput, 100))
 		on('change', VALIDATE_SELECTABLE, oninput)
-		on('blur', INPUT, onblur)
+		on('blur', `${INPUT}, ${SELECTABLE}`, onblur)
 		on('focus', `${INPUT}, ${SELECTABLE}`, onfocus)
 	}
 
@@ -121,10 +121,15 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 
 	update( props => {
 		if( props.data && JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
-			const input = elm.querySelector('input, select')
+			const {name} = elm.querySelector('input, select')
 			msg.set( s => {
 				s.data = Object.assign({}, s.data, props.data) 
-				s.value = s.data[input.name] || null
+				s.value = s.data[name] || null
+				if( s.value ) {
+					trigger('input', `[name=${name}]`)
+					trigger('change', `[name=${name}]`)
+					s.touched = true 
+				}
 			})
 		}			
 	})
@@ -140,10 +145,13 @@ export const model = {
 }
 
 export const view = (state) => {
+	
 	const touched = state.touched? 'touched' : ''
 	const error   = state.error? 'error' : ''
 	const focus   = state.focus? 'focus' : ''
+	const valid   = state.value && state.isValid && state.touched ? 'valid' : ''
+	
 	return Object.assign({}, state, {
-		fieldClass : `${touched} ${error} ${focus}`.trim()
+		fieldClass : `${touched} ${error} ${focus} ${valid}`.trim()
 	})
 }
