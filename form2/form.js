@@ -52,7 +52,9 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 	 * @description Updating form with parent states
 	 */
 	update( (props) => {
-		msg.set( s => s.data = props.data )
+		if( props && JSON.stringify(props) != JSON.stringify(msg.getState().data) ) {
+			msg.set( s => s.data = Object.assign({}, s.data, props.data) )
+		}
 	})
 }
 

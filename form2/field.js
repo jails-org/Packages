@@ -2,7 +2,7 @@ import validator from '../validator'
 import { getRules, formatError, debounce } from './utils'
 import { INPUT, VALIDATE_INPUT, SELECTABLE, VALIDATE_SELECTABLE } from './constants'
 
-export default function formField ({ main, elm, msg, injection, emit, trigger }) {
+export default function formField ({ main, elm, msg, injection, emit, trigger, update}) {
 	
 	const { validators } = injection
 
@@ -118,6 +118,16 @@ export default function formField ({ main, elm, msg, injection, emit, trigger })
 	const map = (fn) => { 
 		fn({ elm, state: msg.getState() })
 	}
+
+	update( props => {
+		if( props.data && JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
+			const input = elm.querySelector('input, select')
+			msg.set( s => {
+				s.data = Object.assign({}, s.data, props.data) 
+				s.value = s.data[input.name] || null
+			})
+		}			
+	})
 }
 
 export const model = {
