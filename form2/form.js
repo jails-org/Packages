@@ -26,15 +26,21 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 
 	const validate = () => {
 		let isFormValid = true
-
+		let updateData = {}
 		field('map', ({ elm, state }) => {
 			if( elm.querySelector('[data-rules]') && !state.isValid ) {
 				isFormValid = false
 			}
+			const input = elm.querySelector('input, select, textarea')
+			updateData[input.name] = input.value
 		})
 
 		if( isFormValid != msg.getState().isValid ){
-			msg.set( s => s.isValid = isFormValid )
+
+			msg.set( s => {
+				s.isValid = isFormValid
+				s.data = Object.assign(s.data, updateData)
+			})
 			emit(`form:${isFormValid? 'valid': 'invalid'}`, getFormData(elm))
 		}		
 	}
