@@ -81,13 +81,19 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 	 * @param {*} event
 	 */
 	 const onblur = (event) => {
-		const { name } = event.target
+		const { name, value } = event.target
+		const isCheckbox = event.target.type == 'checkbox'
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
 					s.error = null
 					s.isValid = true
 					s.focus = false
+					if( isCheckbox ) {
+						s.value = event.target.checked? value : ''
+					}else {
+						s.value = value
+					}	
 				})
 			})
 			.catch(errors => {
@@ -95,6 +101,11 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 					s.error = formatError(errors[name])
 					s.isValid = false
 					s.focus = false
+					if( isCheckbox ) {
+						s.value = event.target.checked? value : ''
+					}else {
+						s.value = value
+					}	
 				})
 			})
 			.finally( emitchange )
@@ -122,7 +133,7 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 	update( props => {
 		if( props.data && JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
 			const {name} = elm.querySelector('input, select')
-			let hasValue = false 
+			let hasValue = false
 			msg.set( s => {
 				s.data = Object.assign({}, s.data, props.data) 
 				s.value = s.data[name] || null
