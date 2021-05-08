@@ -51,7 +51,7 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 	 */
 	 const oninput = (event) => {
 		const { name, value } = event.target
-		const isCheckbox = event.target.type == 'checkbox'
+		const isCheckbox = event.target.type == 'checkbox' || event.target.type == 'radio'
 
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
@@ -82,7 +82,7 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 	 */
 	 const onblur = (event) => {
 		const { name, value } = event.target
-		const isCheckbox = event.target.type == 'checkbox'
+		const isCheckbox = event.target.type == 'checkbox' || event.target.type == 'radio'
 		validator({ [name]: getRules(event.target) }, validators)
 			.then(_ => {
 				msg.set(s => {
