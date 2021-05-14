@@ -132,11 +132,11 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 
 	update( props => {
 		if( props.data && JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
-			const {name} = elm.querySelector('input, select')
+			const {name, value} = elm.querySelector('input, select')
 			let hasValue = false
 			msg.set( s => {
 				s.data = Object.assign({}, s.data, props.data) 
-				s.value = s.data[name] || null
+				s.value = s.data[name] || s.value || null
 				s.touched = Boolean(s.value)
 				hasValue = Boolean(s.value)
 			})
