@@ -132,13 +132,17 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 
 	update( props => {
 		if( props.data && JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
-			const {name, value} = elm.querySelector('input, select')
+			const {name, value, type, checked} = elm.querySelector('input, select')
 			let hasValue = false
 			msg.set( s => {
 				s.data = Object.assign({}, s.data, props.data) 
-				s.value = s.data[name] || s.value || null
+				if( type == 'checkbox' || type == 'radio' ) {
+					s.value = s.data[name] || (checked?value:'')
+				}else {
+					s.value = s.data[name] || s.value
+				}
 				s.touched = Boolean(s.value)
-				hasValue = Boolean(s.value)
+				hasValue = Boolean(s.value && s.data[name])
 			})
 			if( hasValue ) {
 				trigger('input', `[name=${name}]`)
