@@ -32,12 +32,22 @@ export const getFormData = (form) => {
 			if (el.name) {
 				const therules = (new Function(`return ${el.dataset.rules}`))()
 				const rules = therules ? therules : null
+
 				const isCheckbox = (el.type && (el.type == 'checkbox'))
-				const value = isCheckbox
-					? el.checked ? el.value : ''
-					: el.form[el.name].value
-				acc[el.name] = value
+				const isFile = (el.type && (el.type == 'file'))
+
+				acc[el.name] = el.form[el.name].value
+
+				if (isCheckbox) {
+					acc[el.name] = el.checked ? el.value : ''
+				}
+
+				if (isFile && el.value) {
+					acc[el.name] = el.files
+				}
+
 			}
+
 			return acc
 		}, {})
 
