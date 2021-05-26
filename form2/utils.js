@@ -36,10 +36,10 @@ export const getFormData = (form) => {
 				const isCheckbox = (el.type && (el.type == 'checkbox'))
 				const isFile = (el.type && (el.type == 'file'))
 
-				acc[el.name] = el.value
+				acc[el.name] = el.form[el.name].value
 
-				if (isCheckbox && el.checked) {
-					acc[el.name] = el.value
+				if (isCheckbox) {
+					acc[el.name] = el.checked ? el.value : ''
 				}
 
 				if (isFile && el.value) {
