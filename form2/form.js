@@ -2,11 +2,10 @@ import { getFormData } from './utils'
 
 export default function form ({ main, get, elm, emit, update, msg }) {
 
-	const fields = get('form-field')
+	const field = get('form-field')
 
 	main( _ => [
 		events,
-		initialState,
 		exposing
 	])
 
@@ -15,31 +14,40 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 		on('submit', onsubmit)
 	}
 
-	const initialState = () => {
-		if( 'isvalid' in elm.dataset ) {
-			msg.set( s => s.isValid = Boolean(elm.dataset.isvalid) )
-		}
+	const exposing = ({ expose }) => {
+		expose({ validate, setFields })
 	}
 
-	const exposing = ({ expose }) => {
-		expose({ validate })
+	const setFields = ( fields ) => {
+		for( const name in fields )
+			field('set', name, fields[name], fields)
+		msg.set( s => s.data = Object.assign({}, s.data, fields) )
 	}
 
 	const validate = () => {
-
 		let isFormValid = true
-
-		fields('map', ({ isValid }) => {
-			
-			if( !isValid ) {
+		let updateData = {}
+		field('map', ({ elm, state }) => {
+			if( elm.querySelector('[data-rules]') && !state.isValid ) {
 				isFormValid = false
 			}
+			const input = elm.querySelector('input, select, textarea')
+			if( input.type == 'checkbox' || input.type == 'radio' ) {
+				// updateData[input.name] = input.checked? input.value || input.name : ''
+			}else {
+				updateData[input.name] = input.value
+			}
+			
 		})
 
 		if( isFormValid != msg.getState().isValid ){
-			msg.set( s => s.isValid = isFormValid )
+
+			msg.set( s => {
+				s.isValid = isFormValid
+				s.data = Object.assign(s.data, updateData)
+			})
 			emit(`form:${isFormValid? 'valid': 'invalid'}`, getFormData(elm))
-		}
+		}		
 	}
 
 	const onsubmit = (e) => {
@@ -55,7 +63,9 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 	 * @description Updating form with parent states
 	 */
 	update( (props) => {
-		msg.set( s => s.data = props.data )
+		if( props && JSON.stringify(props) != JSON.stringify(msg.getState().data) ) {
+			msg.set( s => s.data = Object.assign({}, s.data, props.data) )
+		}
 	})
 }
 
