@@ -40,8 +40,11 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 				s.data = data
 				s.touched = true
 			})
-			trigger('input', `[name=${name}]`)
-			trigger('change', `[name=${name}]`)
+			setTimeout(_ => {
+				trigger('input', `[name=${name}]`)
+				trigger('change', `[name=${name}]`)
+			})
+			
 		}			
 	}
 
