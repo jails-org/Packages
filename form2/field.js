@@ -44,7 +44,6 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 				trigger('input', `[name=${name}]`)
 				trigger('change', `[name=${name}]`)
 			})
-			
 		}			
 	}
 
@@ -61,8 +60,10 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 				msg.set(s => {
 					s.error = null
 					s.isValid = true 
-					if( isCheckbox ) {
+					if( event.target.type == 'checkbox' ) {
 						s.value = event.target.checked? value : ''
+					}else if( event.target.type == 'radio'){
+						s.value = event.target.form[name].value
 					}else {
 						s.value = value
 					}					
@@ -70,8 +71,10 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 			})
 			.catch( _ => msg.set( s => {
 				s.isValid = false 
-				if( isCheckbox ) {
+				if( event.target.type == 'checkbox' ) {
 					s.value = event.target.checked? value : ''
+				}else if( event.target.type == 'radio'){
+					s.value = event.target.form[name].value
 				}else {
 					s.value = value
 				}	
@@ -92,8 +95,10 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 					s.error = null
 					s.isValid = true
 					s.focus = false
-					if( isCheckbox ) {
+					if( event.target.type == 'checkbox' ) {
 						s.value = event.target.checked? value : ''
+					}else if( event.target.type == 'radio'){
+						s.value = event.target.form[name].value
 					}else {
 						s.value = value
 					}	
@@ -104,8 +109,10 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 					s.error = formatError(errors[name])
 					s.isValid = false
 					s.focus = false
-					if( isCheckbox ) {
+					if( event.target.type == 'checkbox' ) {
 						s.value = event.target.checked? value : ''
+					}else if( event.target.type == 'radio'){
+						s.value = event.target.form[name].value
 					}else {
 						s.value = value
 					}	
@@ -135,21 +142,28 @@ export default function formField ({ main, elm, msg, injection, emit, trigger, u
 
 	update( props => {
 		if( props.data && JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
-			const {name, value, type, checked} = elm.querySelector('input, select')
+			const {name, type, form, checked, value} = elm.querySelector('input, select')
 			let hasValue = false
+			let prevValue 
+
 			msg.set( s => {
-				s.data = Object.assign({}, s.data, props.data) 
-				if( type == 'checkbox' || type == 'radio' ) {
+				prevValue = s.value
+				s.data = Object.assign({}, s.data, props.data)
+				if( type == 'checkbox' ) {
 					s.value = s.data[name] || (checked?value:'')
+				} else if( type == 'radio') {
+					s.value = form[name].value
 				}else {
 					s.value = s.data[name] || s.value
 				}
 				s.touched = Boolean(s.value)
-				hasValue = Boolean(s.value && s.data[name])
+				hasValue = Boolean(s.value && s.data[name] && s.value != prevValue )
 			})
 			if( hasValue ) {
-				trigger('input', `[name=${name}]`)
-				trigger('change', `[name=${name}]`)
+				setTimeout(_ => {
+					trigger('input', `[name=${name}]`)
+					trigger('change', `[name=${name}]`)
+				})
 			}
 		}			
 	})

@@ -33,11 +33,10 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 			}
 			const input = elm.querySelector('input, select, textarea')
 			if( input.type == 'checkbox' || input.type == 'radio' ) {
-				// updateData[input.name] = input.checked? input.value || input.name : ''
+				updateData[input.name] = input.form[input.name].value
 			}else {
 				updateData[input.name] = input.value
 			}
-			
 		})
 
 		if( isFormValid != msg.getState().isValid ){
@@ -63,8 +62,12 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 	 * @description Updating form with parent states
 	 */
 	update( (props) => {
-		if( props && JSON.stringify(props) != JSON.stringify(msg.getState().data) ) {
-			msg.set( s => s.data = Object.assign({}, s.data, props.data) )
+
+		if( props && props.data ) {		
+			
+			if( JSON.stringify(props.data) != JSON.stringify(msg.getState().data) ) {
+				msg.set( s => s.data = Object.assign({}, s.data, props.data) )
+			}
 		}
 	})
 }
