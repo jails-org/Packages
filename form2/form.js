@@ -32,8 +32,11 @@ export default function form ({ main, get, elm, emit, update, msg }) {
 				isFormValid = false
 			}
 			const input = elm.querySelector('input, select, textarea')
-			if( input.type == 'checkbox' || input.type == 'radio' ) {
+			
+			if( input.type == 'radio' ) {
 				updateData[input.name] = input.form[input.name].value
+			}else if(input.type == 'checkbox') {
+				updateData[input.name] = input.form[input.name].checked? input.form[input.name].value : ''
 			}else {
 				updateData[input.name] = input.value
 			}
