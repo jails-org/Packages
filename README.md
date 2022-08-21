@@ -11,9 +11,12 @@ Highly recommend to see also : https://github.com/sorrycc/awesome-javascript
 - [router](router)
 - [storage](storage)
 - [validator](validator)
-- [form](form)
+- [form2](form2)
 
 ## General Packages
+
+### State Managment
+- [oni.js](https://github.com/Javiani/Oni)
 
 ### Async & Streams 
 - [callbags](https://github.com/staltz/callbag-basics)
